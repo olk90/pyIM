@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>inventoryView</class>
+ <widget class="QWidget" name="inventoryView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>964</width>
+    <height>640</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="inventoryViewLayout" stretch="3,2">
+   <item>
+    <layout class="QVBoxLayout" name="inventoryTableLayout">
+     <item>
+      <widget class="QLineEdit" name="inventorySearch">
+       <property name="placeholderText">
+        <string>Search ...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTableWidget" name="inventoryTable">
+       <column>
+        <property name="text">
+         <string>Device</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Category</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Available</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Lender</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Next MOT</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="InventoryEditorWidget" name="editorWidget" native="true"/>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>InventoryEditorWidget</class>
+   <extends>QWidget</extends>
+   <header>views/editorwidgets</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
