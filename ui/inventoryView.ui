@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="inventoryViewLayout" stretch="3,2">
+  <layout class="QHBoxLayout" name="inventoryViewLayout" stretch="3">
    <item>
     <layout class="QVBoxLayout" name="inventoryTableLayout">
      <item>
@@ -60,19 +60,8 @@
      </item>
     </layout>
    </item>
-   <item>
-    <widget class="InventoryEditorWidget" name="editorWidget" native="true"/>
-   </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>InventoryEditorWidget</class>
-   <extends>QWidget</extends>
-   <header>views/editorwidgets</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

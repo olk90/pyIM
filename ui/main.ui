@@ -25,6 +25,9 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QVBoxLayout" name="dialogLayout">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMaximumSize</enum>
+     </property>
      <item>
       <layout class="QHBoxLayout" name="buttonLayout">
        <item>
@@ -44,7 +47,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QTabWidget" name="personTab">
+      <widget class="QTabWidget" name="tabview">
        <property name="tabPosition">
         <enum>QTabWidget::West</enum>
        </property>
@@ -52,34 +55,14 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>-1</number>
        </property>
-       <widget class="QWidget" name="personTab">
-        <attribute name="title">
-         <string>Persons</string>
-        </attribute>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="PersonWidget" name="verticalWidget" native="true">
-           <layout class="QVBoxLayout" name="personTabLayout"/>
-          </widget>
-         </item>
-        </layout>
-       </widget>
       </widget>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>PersonWidget</class>
-   <extends>QWidget</extends>
-   <header>views/personwidget</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
