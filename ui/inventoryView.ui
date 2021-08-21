@@ -21,16 +21,16 @@
   </property>
   <layout class="QHBoxLayout" name="inventoryViewLayout" stretch="3">
    <item>
-    <layout class="QVBoxLayout" name="inventoryTableLayout">
+    <layout class="QVBoxLayout" name="layout">
      <item>
-      <widget class="QLineEdit" name="inventorySearch">
+      <widget class="QLineEdit" name="search">
        <property name="placeholderText">
         <string>Search ...</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QTableWidget" name="inventoryTable">
+      <widget class="QTableWidget" name="table">
        <column>
         <property name="text">
          <string>Device</string>
