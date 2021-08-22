@@ -1,2 +1,5 @@
+altgraph==0.17
+pyinstaller==4.5.1
+pyinstaller-hooks-contrib==2021.2
 PySide6==6.1.2
 shiboken6==6.1.2
