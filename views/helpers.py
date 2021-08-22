@@ -1,4 +1,5 @@
 import sys
+from datetime import date
 
 from PySide6.QtCore import QFile, QCoreApplication
 
@@ -13,3 +14,10 @@ def load_ui_file(filename):
 
 def translate(context, text):
     return QCoreApplication.translate(context, text, None)
+
+
+def get_min_date():
+    today = date.today()
+    month_abbr = today.strftime("%b")
+    min_year = today.year
+    return month_abbr, min_year
