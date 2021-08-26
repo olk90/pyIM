@@ -1,0 +1,3 @@
+persons = []
+inventoryItems = []
+history = []
