@@ -5,26 +5,33 @@ from pathlib import Path
 from PySide6 import QtCore
 from PySide6.QtWidgets import QApplication, QWidget
 
+from logic.objectStore import update_history
 from views.mainview import MainWindow
 
 userHome = Path.home()
 configDirectory = Path.joinpath(userHome, ".inventoryManager")
+configFile = Path.joinpath(configDirectory, "config.json")
 
 
-def write_history_file():
-    pass
+def write_config_file():
+    config_dict = {
+        "history": []
+    }
+    config = json.dumps(config_dict, indent=4)
+    with open(configFile, "w") as f:
+        f.write(config)
+        f.close()
 
 
 def load_config_file():
     if not configDirectory.exists():
         configDirectory.mkdir()
-    configFile = Path.joinpath(configDirectory, "config.json")
     if configFile.exists():
         file = open(configFile)
         history = json.load(file)
-        print(history)
+        update_history(history)
     else:
-        write_history_file()
+        write_config_file()
 
 
 if __name__ == "__main__":

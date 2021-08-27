@@ -1,6 +1,7 @@
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QMainWindow, QVBoxLayout
+from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QDialog
 
+from views.dataContainerDialogs import AccessHistoryDialog
 from views.helpers import load_ui_file
 from views.inventorywidget import InventoryWidget
 from views.personwidget import PersonWidget
@@ -15,15 +16,16 @@ class MainWindow(QMainWindow):
         form.setWindowTitle("pyIM")
 
         self.layout = QVBoxLayout(form)
+        self.accessHistoryDialog = AccessHistoryDialog()
 
         ui_file_name = "ui/main.ui"
         ui_file = load_ui_file(ui_file_name)
 
         loader = QUiLoader()
-        loader.registerCustomWidget(InventoryWidget)
         self.widget = loader.load(ui_file, form)
         ui_file.close()
 
+        self.configure_buttons()
         self.configure_tabview()
 
         self.layout.addWidget(self.widget)
@@ -38,3 +40,11 @@ class MainWindow(QMainWindow):
 
         inventory_widget = InventoryWidget()
         tabview.addTab(inventory_widget, "Inventory")
+
+    def configure_buttons(self):
+        self.widget.loadDbButton.clicked.connect(self.load_access_history)  # noqa -> button loaded from ui file
+
+    def load_access_history(self):
+
+        self.accessHistoryDialog.exec_()
+
