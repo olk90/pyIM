@@ -2,11 +2,10 @@ import json
 import sys
 from pathlib import Path
 
-from sqlalchemy import create_engine as ce
-
 from PySide6 import QtCore
+from PySide6.QtSql import QSqlDatabase
 from PySide6.QtWidgets import QApplication, QWidget
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import create_engine as ce
 
 from logic.model import create_tables
 from logic.objectStore import update_history
@@ -46,6 +45,14 @@ def init_database():
 
     print("Initializing database")
     create_tables(db)
+
+    print("Connect database to PySide")
+    database = QSqlDatabase.addDatabase("QSQLITE")
+    database.setDatabaseName("pyIM.db")
+
+    if not database.open():
+        print("Unable to open database")
+        sys.exit(1)
 
 
 if __name__ == "__main__":

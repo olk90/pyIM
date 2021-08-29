@@ -1,6 +1,4 @@
-import sys
-
-from PySide6.QtSql import QSqlRelationalTableModel, QSqlDatabase
+from PySide6.QtSql import QSqlRelationalTableModel
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QHeaderView
 
@@ -30,19 +28,10 @@ class PersonWidget(QWidget):
         self.layout.addWidget(self.table_widget, stretch=2)
         self.layout.addWidget(self.editor, stretch=1)
 
-        self.create_connection()
         self.setup_table()
 
     def get_table(self):
         return self.table_widget.table  # noqa -> loaded from ui file
-
-    def create_connection(self):
-        database = QSqlDatabase.addDatabase("QSQLITE")
-        database.setDatabaseName("pyIM.db")
-
-        if not database.open():
-            print("Unable to open database")
-            sys.exit(1)
 
     def setup_table(self):
         model = QSqlRelationalTableModel()
@@ -50,3 +39,7 @@ class PersonWidget(QWidget):
         tableview = self.get_table()
         tableview.setModel(model)
         model.select()
+
+        header = tableview.horizontalHeader()
+        for i in range(0, 3):
+            header.setSectionResizeMode(i, QHeaderView.Stretch)
