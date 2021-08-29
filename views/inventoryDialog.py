@@ -1,10 +1,8 @@
-import sys
-
-from PySide6.QtSql import QSqlRelationalTableModel, QSqlDatabase
+from PySide6.QtSql import QSqlQueryModel
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QHeaderView
 
-from logic.model import inventoryTableName
+from logic.queries import inventoryQuery
 from views.editorDialogs import InventoryEditorWidget
 from views.helpers import load_ui_file
 
@@ -36,12 +34,12 @@ class InventoryWidget(QWidget):
         return self.table_widget.table  # noqa -> loaded from ui file
 
     def setup_table(self):
-        model = QSqlRelationalTableModel()
-        model.setTable(inventoryTableName)
+        model = QSqlQueryModel()
+        model.setQuery(inventoryQuery)
+
         tableview = self.get_table()
         tableview.setModel(model)
-        model.select()
 
         header = tableview.horizontalHeader()
-        for i in range(0, 4):
+        for i in range(0, 6):
             header.setSectionResizeMode(i, QHeaderView.Stretch)

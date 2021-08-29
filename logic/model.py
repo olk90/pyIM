@@ -1,3 +1,5 @@
+from datetime import date
+
 from sqlalchemy import (Column, Integer, String, Boolean, Date, ForeignKey)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -32,7 +34,8 @@ class Person(Base):
     lastname = Column(String(100), nullable=False)
     email = Column(String(100))
 
-    items = relationship("LendingHistory", back_populates="lender")
+    items = relationship(inventoryTableName, back_populates="lender")
+    history = relationship(lendingHistoryTableName, back_populates="lender")
 
     def get_full_name(self):
         return "{} {}".format(self.firstname, self.lastname)
@@ -44,13 +47,16 @@ class InventoryItem(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False, unique=True)
     available = Column(Boolean, nullable=False)
-    lending_date = Column(Date)
+    lending_date = Column(Date, default=date.today())
     info = Column(String(500))
     category = Column(String(100), nullable=False)
     mot_required = Column(Boolean, nullable=False)
     next_mot = Column(Date)
 
-    lendings = relationship("LendingHistory", back_populates="item")
+    lendings = relationship(lendingHistoryTableName, back_populates="item")
+
+    lender_id = Column(Integer, ForeignKey("Person.id"))
+    lender = relationship(personTableName, back_populates="items")
 
 
 class LendingHistory(Base):
@@ -61,7 +67,7 @@ class LendingHistory(Base):
     return_date = Column(Date)
 
     lender_id = Column(Integer, ForeignKey("Person.id"))
-    lender = relationship("Person", back_populates="items")
+    lender = relationship("Person", back_populates="history")
 
     item_id = Column(Integer, ForeignKey("InventoryItem.id"))
     item = relationship("InventoryItem", back_populates="lendings")

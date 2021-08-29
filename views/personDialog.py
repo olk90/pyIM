@@ -1,8 +1,8 @@
-from PySide6.QtSql import QSqlRelationalTableModel
+from PySide6.QtSql import QSqlQueryModel
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QHeaderView
 
-from logic.model import personTableName
+from logic.queries import personQuery
 from views.editorDialogs import PersonEditorWidget
 from views.helpers import load_ui_file
 
@@ -34,11 +34,11 @@ class PersonWidget(QWidget):
         return self.table_widget.table  # noqa -> loaded from ui file
 
     def setup_table(self):
-        model = QSqlRelationalTableModel()
-        model.setTable(personTableName)
+        model = QSqlQueryModel()
+        model.setQuery(personQuery)
+
         tableview = self.get_table()
         tableview.setModel(model)
-        model.select()
 
         header = tableview.horizontalHeader()
         for i in range(0, 3):
