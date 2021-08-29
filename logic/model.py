@@ -1,5 +1,10 @@
+from sqlalchemy import Column, Integer, String, Boolean, Date
+from sqlalchemy.ext.declarative import declarative_base
 
-class DataContainer(object):
+Base = declarative_base()
+
+
+class DatabaseExport(object):
 
     def __init__(self, identifier, persons, items, history):
         self.identifier = identifier
@@ -8,27 +13,26 @@ class DataContainer(object):
         self.history = history
 
 
-class Person(object):
-
-    def __init__(self, firstname="", lastname="", email=""):
-        self.firstname = firstname
-        self.lastname = lastname
-        self.email = email
+class Person(Base):
+    id = Column(Integer, primary_key=True)
+    firstname = Column(String(100), nullable=False)
+    lastname = Column(String(100), nullable=False)
+    email = Column(String(100))
 
     def get_full_name(self):
         return "{} {}".format(self.firstname, self.lastname)
 
 
-class InventoryItem(object):
+class InventoryItem(Base):
 
-    def __init__(self, name="", available=False, lending_date="", info="", category="", mot_required=True, next_mot=""):
-        self.name = name
-        self.available = available
-        self.lending_date = lending_date
-        self.info = info
-        self.category = category
-        self.mot_required = mot_required
-        self.next_mot = next_mot
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100), nullable=False, unique=True)
+    available = Column(Boolean, nullable=False)
+    lending_date = Column(Date)
+    info = Column(String(500))
+    category = Column(String(100), nullable=False)
+    mot_required = Column(Boolean, nullable=False)
+    next_mot = Column(Date)
 
 
 class AccessRecord(object):
