@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, Boolean, Date
+from sqlalchemy import (Column, Integer, String, Boolean, Date, ForeignKey)
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
@@ -13,17 +14,29 @@ class DatabaseExport(object):
         self.history = history
 
 
+class AccessRecord(object):
+
+    def __init__(self, file_path, last_access_time):
+        self.file_path = file_path
+        self.last_access_time = last_access_time
+
+
 class Person(Base):
+    __tablename__ = "Person"
+
     id = Column(Integer, primary_key=True)
     firstname = Column(String(100), nullable=False)
     lastname = Column(String(100), nullable=False)
     email = Column(String(100))
+
+    items = relationship("LendingHistory", back_populates="lender")
 
     def get_full_name(self):
         return "{} {}".format(self.firstname, self.lastname)
 
 
 class InventoryItem(Base):
+    __tablename__ = "InventoryItem"
 
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False, unique=True)
@@ -34,18 +47,22 @@ class InventoryItem(Base):
     mot_required = Column(Boolean, nullable=False)
     next_mot = Column(Date)
 
-
-class AccessRecord(object):
-
-    def __init__(self, file_path, last_access_time):
-        self.file_path = file_path
-        self.last_access_time = last_access_time
+    lendings = relationship("LendingHistory", back_populates="item")
 
 
-class LendingHistoryRecord(object):
+class LendingHistory(Base):
+    __tablename__ = "LendingHistory"
 
-    def __init__(self, lender_id, item_id, lending_date="", return_date=""):
-        self.lender_id = lender_id
-        self.item_id = item_id
-        self.lending_date = lending_date
-        self.return_date = return_date
+    id = Column(Integer, primary_key=True)
+    lending_date = Column(Date)
+    return_date = Column(Date)
+
+    lender_id = Column(Integer, ForeignKey("Person.id"))
+    lender = relationship("Person", back_populates="items")
+
+    item_id = Column(Integer, ForeignKey("InventoryItem.id"))
+    item = relationship("InventoryItem", back_populates="lendings")
+
+
+def create_tables(engine):
+    Base.metadata.create_all(engine)
