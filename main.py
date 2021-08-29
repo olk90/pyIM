@@ -10,7 +10,7 @@ from sqlalchemy.orm import declarative_base
 
 from logic.model import create_tables
 from logic.objectStore import update_history
-from views.mainview import MainWindow
+from views.mainView import MainWindow
 
 userHome = Path.home()
 configDirectory = Path.joinpath(userHome, ".inventoryManager")

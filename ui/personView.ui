@@ -61,23 +61,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QTableWidget" name="table">
-       <column>
-        <property name="text">
-         <string>First Name</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Last Name</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>E-Mail</string>
-        </property>
-       </column>
-      </widget>
+      <widget class="QTableView" name="table"/>
      </item>
     </layout>
    </item>

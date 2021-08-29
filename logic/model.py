@@ -3,6 +3,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
 Base = declarative_base()
+personTableName = "Person"
+inventoryTableName = "InventoryItem"
+lendingHistoryTableName = "LendingHistory"
 
 
 class DatabaseExport(object):
@@ -22,7 +25,7 @@ class AccessRecord(object):
 
 
 class Person(Base):
-    __tablename__ = "Person"
+    __tablename__ = personTableName
 
     id = Column(Integer, primary_key=True)
     firstname = Column(String(100), nullable=False)
@@ -36,7 +39,7 @@ class Person(Base):
 
 
 class InventoryItem(Base):
-    __tablename__ = "InventoryItem"
+    __tablename__ = inventoryTableName
 
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False, unique=True)
@@ -51,7 +54,7 @@ class InventoryItem(Base):
 
 
 class LendingHistory(Base):
-    __tablename__ = "LendingHistory"
+    __tablename__ = lendingHistoryTableName
 
     id = Column(Integer, primary_key=True)
     lending_date = Column(Date)

@@ -3,8 +3,8 @@ from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QDialog
 
 from views.dataContainerDialogs import AccessHistoryDialog
 from views.helpers import load_ui_file
-from views.inventorywidget import InventoryWidget
-from views.personwidget import PersonWidget
+from views.inventoryDialog import InventoryWidget
+from views.personDialog import PersonWidget
 
 
 class MainWindow(QMainWindow):
