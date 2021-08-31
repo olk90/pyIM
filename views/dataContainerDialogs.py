@@ -1,13 +1,10 @@
 import json
 
-from sqlalchemy.orm import Session
-
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QDialog, QHBoxLayout
 
-from logic.database import db, load_persons
+from logic.database import load_persons
 from logic.files import access_records
-from logic.model import Person
 from views.helpers import load_ui_file
 
 
@@ -48,3 +45,5 @@ class AccessHistoryDialog(QDialog):
         items = dictionary["items"]
         for i in items:
             print(i)
+
+        self.close()
