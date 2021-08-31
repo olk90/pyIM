@@ -3,19 +3,15 @@ import sys
 from pathlib import Path
 
 from PySide6 import QtCore
-from PySide6.QtSql import QSqlDatabase
 from PySide6.QtWidgets import QApplication, QWidget
-from sqlalchemy import create_engine as ce
 
-from logic.model import create_tables
-from logic.objectStore import update_history
+from logic.database import init_database
+from logic.files import update_history
 from views.mainView import MainWindow
 
 userHome = Path.home()
 configDirectory = Path.joinpath(userHome, ".inventoryManager")
 configFile = Path.joinpath(configDirectory, "config.json")
-
-db = ce("sqlite:///pyIM.db")
 
 
 def write_config_file():
@@ -39,27 +35,10 @@ def load_config_file():
         write_config_file()
 
 
-def init_database():
-    print("Connecting to database {}".format(db))
-    db.connect()
-
-    print("Initializing database")
-    create_tables(db)
-
-    print("Connect database to PySide")
-    database = QSqlDatabase.addDatabase("QSQLITE")
-    database.setDatabaseName("pyIM.db")
-
-    if not database.open():
-        print("Unable to open database")
-        sys.exit(1)
-
-
 if __name__ == "__main__":
     QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
 
     init_database()
-
     load_config_file()
 
     app = QApplication()

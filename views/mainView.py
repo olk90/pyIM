@@ -1,5 +1,5 @@
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QDialog
+from PySide6.QtWidgets import QMainWindow, QVBoxLayout
 
 from views.dataContainerDialogs import AccessHistoryDialog
 from views.helpers import load_ui_file
@@ -45,6 +45,4 @@ class MainWindow(QMainWindow):
         self.widget.loadDbButton.clicked.connect(self.load_access_history)  # noqa -> button loaded from ui file
 
     def load_access_history(self):
-
         self.accessHistoryDialog.exec_()
-

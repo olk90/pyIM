@@ -1,7 +1,5 @@
 from pathlib import Path
 
-persons = []
-inventoryItems = []
 access_records = []
 
 

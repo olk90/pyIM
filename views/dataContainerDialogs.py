@@ -1,7 +1,13 @@
-from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QDialog, QHBoxLayout, QListWidgetItem
+import json
 
-from logic.objectStore import access_records
+from sqlalchemy.orm import Session
+
+from PySide6.QtUiTools import QUiLoader
+from PySide6.QtWidgets import QDialog, QHBoxLayout
+
+from logic.database import db, load_persons
+from logic.files import access_records
+from logic.model import Person
 from views.helpers import load_ui_file
 
 
@@ -19,10 +25,10 @@ class AccessHistoryDialog(QDialog):
         self.widget = loader.load(ui_file)
         ui_file.close()
 
-        view = self.widget.accessHistoryView  # noqa -> view loaded from ui file
+        self.view = self.widget.accessHistoryView  # noqa -> view loaded from ui file
         for record in access_records:
-            item = QListWidgetItem(record["filePath"])
-            view.addItem(item)
+            item = str(record["filePath"])
+            self.view.addItem(item)
 
         self.layout = QHBoxLayout(self)
         self.layout.addWidget(self.widget)
@@ -30,4 +36,15 @@ class AccessHistoryDialog(QDialog):
         self.configure_buttons()
 
     def configure_buttons(self):
+        self.widget.confirmLoadButton.clicked.connect(self.load_contents)  # noqa -> button loaded from ui file
         self.widget.cancelLoadButton.clicked.connect(self.close)  # noqa -> button loaded from ui file
+
+    def load_contents(self):
+        item = self.view.currentItem()
+        file = open(item.text())
+        dictionary = json.load(file)
+        load_persons(dictionary["persons"])
+
+        items = dictionary["items"]
+        for i in items:
+            print(i)
