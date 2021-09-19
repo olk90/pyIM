@@ -1,6 +1,6 @@
 from PySide6.QtSql import QSqlQueryModel
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QHeaderView
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QHeaderView, QTableView
 
 from logic.queries import personQuery
 from views.editorDialogs import PersonEditorWidget
@@ -39,6 +39,7 @@ class PersonWidget(QWidget):
 
         tableview = self.get_table()
         tableview.setModel(model)
+        tableview.setSelectionBehavior(QTableView.SelectRows)
 
         header = tableview.horizontalHeader()
         for i in range(0, 3):
