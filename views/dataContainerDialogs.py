@@ -3,14 +3,16 @@ import json
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QDialog, QHBoxLayout
 
-from logic.database import load_persons
+from logic.database import load_persons, load_inventory
 from logic.files import access_records
 from views.helpers import load_ui_file
+from views.inventoryDialog import InventoryWidget
+from views.personDialog import PersonWidget
 
 
 class AccessHistoryDialog(QDialog):
 
-    def __init__(self):
+    def __init__(self, person_widget: PersonWidget = None, inventory_widget: InventoryWidget = None):
         super().__init__()
         self.setModal(True)
         self.setMinimumWidth(450)
@@ -21,6 +23,9 @@ class AccessHistoryDialog(QDialog):
         loader = QUiLoader()
         self.widget = loader.load(ui_file)
         ui_file.close()
+
+        self.person_widget = person_widget
+        self.inventory_widget = inventory_widget
 
         self.view = self.widget.accessHistoryView  # noqa -> view loaded from ui file
         for record in access_records:
@@ -40,10 +45,13 @@ class AccessHistoryDialog(QDialog):
         item = self.view.currentItem()
         file = open(item.text())
         dictionary = json.load(file)
-        load_persons(dictionary["persons"])
+        persons = dictionary["persons"]
+        load_persons(persons)
+        self.person_widget.reload_table_contents()
 
-        items = dictionary["items"]
-        for i in items:
-            print(i)
+        # TODO add proper data type conversion (String -> Date)
+        # items = dictionary["items"]
+        # load_inventory(items)
+        self.inventory_widget.reload_table_contents()
 
         self.close()

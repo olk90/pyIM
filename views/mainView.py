@@ -36,6 +36,7 @@ class MainWindow(QMainWindow):
         tabview = self.widget.tabview  # noqa -> tabview is loaded from ui file
 
         person_widget = PersonWidget()
+        self.accessHistoryDialog.person_widget = person_widget
         tabview.addTab(person_widget, "Persons")
 
         inventory_widget = InventoryWidget()

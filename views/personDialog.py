@@ -1,9 +1,7 @@
-from PySide6.QtGui import Qt
-from PySide6.QtSql import QSqlQueryModel
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QHeaderView, QTableView
 
-from logic.queries import personQuery
+from logic.database import configure_person_model
 from views.editorDialogs import PersonEditorWidget
 from views.helpers import load_ui_file
 
@@ -35,11 +33,7 @@ class PersonWidget(QWidget):
         return self.table_widget.table  # noqa -> loaded from ui file
 
     def setup_table(self):
-        model = QSqlQueryModel()
-        model.setQuery(personQuery)
-        model.setHeaderData(0, Qt.Horizontal, "First Name")
-        model.setHeaderData(1, Qt.Horizontal, "Last Name")
-        model.setHeaderData(2, Qt.Horizontal, "E-Mail")
+        model = configure_person_model()
 
         tableview = self.get_table()
         tableview.setModel(model)
@@ -49,3 +43,8 @@ class PersonWidget(QWidget):
         header = tableview.horizontalHeader()
         for i in range(0, 3):
             header.setSectionResizeMode(i, QHeaderView.Stretch)
+
+    def reload_table_contents(self):
+        model = configure_person_model()
+        tableview = self.get_table()
+        tableview.setModel(model)
