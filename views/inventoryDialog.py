@@ -1,3 +1,4 @@
+from PySide6.QtCore import Qt
 from PySide6.QtSql import QSqlQueryModel
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QHeaderView, QTableView
@@ -36,6 +37,12 @@ class InventoryWidget(QWidget):
     def setup_table(self):
         model = QSqlQueryModel()
         model.setQuery(inventoryQuery)
+        model.setHeaderData(0, Qt.Horizontal, "Device")
+        model.setHeaderData(1, Qt.Horizontal, "Category")
+        model.setHeaderData(2, Qt.Horizontal, "Available")
+        model.setHeaderData(3, Qt.Horizontal, "Lending Date")
+        model.setHeaderData(4, Qt.Horizontal, "Lend to")
+        model.setHeaderData(5, Qt.Horizontal, "Next MOT")
 
         tableview = self.get_table()
         tableview.setModel(model)

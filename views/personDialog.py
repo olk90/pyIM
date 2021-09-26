@@ -1,3 +1,4 @@
+from PySide6.QtGui import Qt
 from PySide6.QtSql import QSqlQueryModel
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QHeaderView, QTableView
@@ -36,10 +37,14 @@ class PersonWidget(QWidget):
     def setup_table(self):
         model = QSqlQueryModel()
         model.setQuery(personQuery)
+        model.setHeaderData(0, Qt.Horizontal, "First Name")
+        model.setHeaderData(1, Qt.Horizontal, "Last Name")
+        model.setHeaderData(2, Qt.Horizontal, "E-Mail")
 
         tableview = self.get_table()
         tableview.setModel(model)
         tableview.setSelectionBehavior(QTableView.SelectRows)
+        tableview.setSortingEnabled(True)
 
         header = tableview.horizontalHeader()
         for i in range(0, 3):
