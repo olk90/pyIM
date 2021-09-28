@@ -20,6 +20,15 @@ class PersonEditorWidget(QWidget):
         self.layout = QHBoxLayout(self)
         self.layout.addWidget(self.widget)
 
+        self.firstNameEdit = self.widget.firstNameEdit  # noqa
+        self.lastNameEdit = self.widget.lastNameEdit  # noqa
+        self.emailEdit = self.widget.emailEdit  # noqa
+
+    def fill_text_fields(self, first_name: str, last_name: str, email: str):
+        self.firstNameEdit.setText(first_name)
+        self.lastNameEdit.setText(last_name)
+        self.emailEdit.setText(email)
+
 
 class InventoryEditorWidget(QWidget):
 

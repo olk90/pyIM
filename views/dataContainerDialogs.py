@@ -3,7 +3,7 @@ import json
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QDialog, QHBoxLayout
 
-from logic.database import load_persons, load_inventory
+from logic.database import load_persons
 from logic.files import access_records
 from views.helpers import load_ui_file
 from views.inventoryDialog import InventoryWidget

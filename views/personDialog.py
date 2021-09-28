@@ -1,5 +1,6 @@
+from PySide6.QtCore import QModelIndex, QItemSelectionModel
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QHeaderView, QTableView
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QHeaderView, QTableView, QAbstractItemView
 
 from logic.database import configure_person_model
 from views.editorDialogs import PersonEditorWidget
@@ -35,10 +36,12 @@ class PersonWidget(QWidget):
     def setup_table(self):
         model = configure_person_model()
 
-        tableview = self.get_table()
+        tableview: QTableView = self.get_table()
         tableview.setModel(model)
         tableview.setSelectionBehavior(QTableView.SelectRows)
+        tableview.setSelectionMode(QAbstractItemView.SingleSelection)
         tableview.setSortingEnabled(True)
+        tableview.selectionModel().selectionChanged.connect(lambda x: self.reload_editor())
 
         header = tableview.horizontalHeader()
         for i in range(0, 3):
@@ -46,5 +49,16 @@ class PersonWidget(QWidget):
 
     def reload_table_contents(self):
         model = configure_person_model()
-        tableview = self.get_table()
+        tableview: QTableView = self.get_table()
         tableview.setModel(model)
+
+    def reload_editor(self):
+        tableview: QTableView = self.get_table()
+        selection_model: QItemSelectionModel = tableview.selectionModel()
+        indexes: QModelIndex = selection_model.selectedRows()
+        model = tableview.model()
+        for index in indexes:
+            first_name = model.data(model.index(index.row(), 0))
+            last_name = model.data(model.index(index.row(), 1))
+            email = model.data(model.index(index.row(), 2))
+            self.editor.fill_text_fields(first_name, last_name, email)
