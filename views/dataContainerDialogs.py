@@ -3,7 +3,7 @@ import json
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QDialog, QHBoxLayout
 
-from logic.database import load_persons
+from logic.database import load_persons, load_inventory
 from logic.files import access_records
 from views.helpers import load_ui_file
 from views.inventoryDialog import InventoryWidget
@@ -50,8 +50,8 @@ class AccessHistoryDialog(QDialog):
         self.person_widget.reload_table_contents()
 
         # TODO add proper data type conversion (String -> Date)
-        # items = dictionary["items"]
-        # load_inventory(items)
+        items = dictionary["items"]
+        load_inventory(items)
         self.inventory_widget.reload_table_contents()
 
         self.close()

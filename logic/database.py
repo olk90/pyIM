@@ -1,5 +1,8 @@
 import sys
 
+from datetime import datetime
+from sqlite3 import Date
+
 from PySide6.QtGui import Qt
 from sqlalchemy.orm import Session
 
@@ -69,12 +72,20 @@ def load_inventory(inventory):
                 id=i["id"] + 1,
                 name=i["name"],
                 available=i["available"],
-                lending_date=i["lendingDate"],
+                lending_date=convert_date(i["lendingDate"]),
                 lender_id=i["lender"],
                 info=i["info"],
                 category=i["category"],
                 mot_required=i["motRequired"],
-                next_mot=i["nextMot"]
+                next_mot=convert_date(i["nextMot"])
             )
             session.add(inventory_item)
         session.commit()
+
+
+def convert_date(date_str: str):
+    date_pattern = "%Y-%m-%d"
+    if len(date_str) > 0:
+        return datetime.strptime(date_str, date_pattern)
+    else:
+        return None

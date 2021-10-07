@@ -40,6 +40,7 @@ class MainWindow(QMainWindow):
         tabview.addTab(person_widget, "Persons")
 
         inventory_widget = InventoryWidget()
+        self.accessHistoryDialog.inventory_widget = inventory_widget
         tabview.addTab(inventory_widget, "Inventory")
 
     def configure_buttons(self):
