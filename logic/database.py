@@ -1,13 +1,10 @@
 import sys
-
 from datetime import datetime
-from sqlite3 import Date
 
 from PySide6.QtGui import Qt
-from sqlalchemy.orm import Session
-
 from PySide6.QtSql import QSqlDatabase, QSqlQueryModel
 from sqlalchemy import create_engine as ce
+from sqlalchemy.orm import Session
 
 from logic.model import create_tables, Person, InventoryItem
 from logic.queries import personQuery, inventoryQuery
@@ -50,6 +47,11 @@ def configure_inventory_model():
     model.setHeaderData(4, Qt.Horizontal, "Lend to")
     model.setHeaderData(5, Qt.Horizontal, "Next MOT")
     return model
+
+
+def find_inventory_by_name(name: str) -> InventoryItem:
+    with Session(db) as session:
+        return session.query(InventoryItem).filter(InventoryItem.name == name).one()
 
 
 def load_persons(persons):
