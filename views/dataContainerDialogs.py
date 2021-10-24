@@ -49,7 +49,6 @@ class AccessHistoryDialog(QDialog):
         load_persons(persons)
         self.person_widget.reload_table_contents()
 
-        # TODO add proper data type conversion (String -> Date)
         items = dictionary["items"]
         load_inventory(items)
         self.inventory_widget.reload_table_contents()

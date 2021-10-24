@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 
 from logic.model import create_tables, Person, InventoryItem
 from logic.queries import personQuery, inventoryQuery
+from logic.tablemodels import InventoryTableModel
 
 db = ce("sqlite:///pyIM.db")
 
@@ -28,7 +29,7 @@ def init_database():
         sys.exit(1)
 
 
-def configure_person_model():
+def configure_person_model() -> QSqlQueryModel:
     model = QSqlQueryModel()
     model.setQuery(personQuery)
     model.setHeaderData(0, Qt.Horizontal, "First Name")
@@ -37,8 +38,8 @@ def configure_person_model():
     return model
 
 
-def configure_inventory_model():
-    model = QSqlQueryModel()
+def configure_inventory_model() -> InventoryTableModel:
+    model = InventoryTableModel()
     model.setQuery(inventoryQuery)
     model.setHeaderData(0, Qt.Horizontal, "Device")
     model.setHeaderData(1, Qt.Horizontal, "Category")

@@ -31,7 +31,7 @@ class InventoryWidget(QWidget):
 
         self.setup_table()
 
-    def get_table(self):
+    def get_table(self) -> QTableView:
         return self.table_widget.table  # noqa -> loaded from ui file
 
     def setup_table(self):
