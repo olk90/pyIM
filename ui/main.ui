@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>pyIM</string>
+   <string>Shift Planner</string>
   </property>
   <property name="accessibleName">
    <string/>
@@ -59,6 +59,19 @@
          </property>
          <property name="text">
           <string>Load Database ...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="optionsButton">
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>34</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Options</string>
          </property>
         </widget>
        </item>

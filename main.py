@@ -10,7 +10,7 @@ from logic.files import update_history
 from views.mainView import MainWindow
 
 userHome = Path.home()
-configDirectory = Path.joinpath(userHome, ".inventoryManager")
+configDirectory = Path.joinpath(userHome, ".pyIM")
 configFile = Path.joinpath(configDirectory, "config.json")
 
 
