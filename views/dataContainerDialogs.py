@@ -4,7 +4,6 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QDialog, QHBoxLayout
 
 from logic.database import load_persons, load_inventory
-from logic.files import access_records
 from views.helpers import load_ui_file
 from views.inventoryDialog import InventoryWidget
 from views.personDialog import PersonWidget
@@ -28,9 +27,9 @@ class AccessHistoryDialog(QDialog):
         self.inventory_widget = inventory_widget
 
         self.view = self.widget.accessHistoryView  # noqa -> view loaded from ui file
-        for record in access_records:
-            item = str(record["filePath"])
-            self.view.addItem(item)
+        # for record in access_records:
+        #     item = str(record["filePath"])
+        #     self.view.addItem(item)
 
         self.layout = QHBoxLayout(self)
         self.layout.addWidget(self.widget)

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>590</width>
+    <height>364</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,9 +15,9 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0,0">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0">
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="editorTitle">
        <property name="font">
         <font>
          <pointsize>14</pointsize>
@@ -33,32 +33,25 @@
      <item>
       <layout class="QFormLayout" name="formLayout">
        <item row="0" column="0">
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="localeLabel">
          <property name="text">
-          <string>Language</string>
+          <string>Locale</string>
          </property>
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QComboBox" name="languageBox"/>
+        <widget class="QComboBox" name="localeBox"/>
        </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="themeLabel">
          <property name="text">
           <string>Theme</string>
          </property>
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QComboBox" name="comboBox"/>
+        <widget class="QComboBox" name="themeBox"/>
        </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="buttonLayout">
-       <property name="spacing">
-        <number>6</number>
-       </property>
       </layout>
      </item>
      <item>

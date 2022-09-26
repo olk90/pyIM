@@ -2,28 +2,9 @@ from datetime import datetime
 
 from PySide6 import QtCore
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QDialog, QMainWindow
+from PySide6.QtWidgets import QWidget, QHBoxLayout
 
 from views.helpers import load_ui_file, get_min_date
-
-
-class OptionsEditorDialog(QDialog):
-
-    def __init__(self, parent: QMainWindow):
-        super().__init__()
-        self.parent = parent
-        self.setModal(True)
-        self.setMinimumWidth(450)
-        self.setWindowTitle(" ")
-        ui_file_name = "ui/optionsEditor.ui"
-        ui_file = load_ui_file(ui_file_name)
-
-        loader = QUiLoader()
-        self.widget = loader.load(ui_file)
-        ui_file.close()
-
-        self.layout = QHBoxLayout(self)
-        self.layout.addWidget(self.widget)
 
 
 class PersonEditorWidget(QWidget):

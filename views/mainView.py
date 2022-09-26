@@ -2,8 +2,8 @@ from PySide6.QtGui import QIcon
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QMainWindow, QVBoxLayout
 
+from views.base_classes import OptionsEditorDialog
 from views.dataContainerDialogs import AccessHistoryDialog
-from views.editorDialogs import OptionsEditorDialog
 from views.helpers import load_ui_file
 from views.inventoryDialog import InventoryWidget
 from views.personDialog import PersonWidget
