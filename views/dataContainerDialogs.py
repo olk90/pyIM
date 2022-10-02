@@ -5,8 +5,8 @@ from PySide6.QtWidgets import QDialog, QHBoxLayout
 
 from logic.database import load_persons, load_inventory
 from views.helpers import load_ui_file
-from views.inventoryDialog import InventoryWidget
-from views.personDialog import PersonWidget
+from views.inventory import InventoryWidget
+from views.person import PersonWidget
 
 
 class AccessHistoryDialog(QDialog):

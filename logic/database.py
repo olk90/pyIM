@@ -1,16 +1,25 @@
+import logging
 import sys
 from datetime import datetime
+from logging.handlers import RotatingFileHandler
 
-from PySide6.QtGui import Qt
-from PySide6.QtSql import QSqlDatabase, QSqlQueryModel
+from PySide6.QtSql import QSqlDatabase
 from sqlalchemy import create_engine as ce
 from sqlalchemy.orm import Session
 
-from logic.model import create_tables, Person, InventoryItem
-from logic.queries import personQuery, inventoryQuery
-from logic.tablemodels import InventoryTableModel
+from logic import configure_file_handler
+from logic.config import properties
+from logic.model import create_tables, Person, InventoryItem, Base
 
 db = ce("sqlite:///pyIM.db")
+
+rfh: RotatingFileHandler = configure_file_handler("database")
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+logger.addHandler(rfh)
+
+logger.info("Logger initialised")
 
 
 def init_database():
@@ -27,27 +36,6 @@ def init_database():
     if not database.open():
         print("Unable to open database")
         sys.exit(1)
-
-
-def configure_person_model() -> QSqlQueryModel:
-    model = QSqlQueryModel()
-    model.setQuery(personQuery)
-    model.setHeaderData(0, Qt.Horizontal, "First Name")
-    model.setHeaderData(1, Qt.Horizontal, "Last Name")
-    model.setHeaderData(2, Qt.Horizontal, "E-Mail")
-    return model
-
-
-def configure_inventory_model() -> InventoryTableModel:
-    model = InventoryTableModel()
-    model.setQuery(inventoryQuery)
-    model.setHeaderData(0, Qt.Horizontal, "Device")
-    model.setHeaderData(1, Qt.Horizontal, "Category")
-    model.setHeaderData(2, Qt.Horizontal, "Available")
-    model.setHeaderData(3, Qt.Horizontal, "Lending Date")
-    model.setHeaderData(4, Qt.Horizontal, "Lend to")
-    model.setHeaderData(5, Qt.Horizontal, "Next MOT")
-    return model
 
 
 def find_inventory_by_name(name: str) -> InventoryItem:
@@ -92,3 +80,17 @@ def convert_date(date_str: str):
         return datetime.strptime(date_str, date_pattern)
     else:
         return None
+
+
+def persist_item(item: Base):
+    s = properties.open_session()
+    s.add(item)
+    s.commit()
+    logger.info("Added new item to database: %s", item)
+
+
+def delete_item(item: Base):
+    s = properties.open_session()
+    s.delete(item)
+    s.commit()
+    logger.info("Removed entry from database: %s", item)

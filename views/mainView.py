@@ -1,12 +1,13 @@
 from PySide6.QtGui import QIcon
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QMainWindow, QVBoxLayout
+from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget
 
-from views.base_classes import OptionsEditorDialog
+from logic.table_models import PersonModel
+from views.base_classes import OptionsEditorDialog, TableDialog
 from views.dataContainerDialogs import AccessHistoryDialog
 from views.helpers import load_ui_file
-from views.inventoryDialog import InventoryWidget
-from views.personDialog import PersonWidget
+from views.inventory import InventoryWidget
+from views.person import PersonWidget
 
 
 class MainWindow(QMainWindow):
@@ -30,6 +31,7 @@ class MainWindow(QMainWindow):
         self.widget = loader.load(ui_file, form)
         ui_file.close()
 
+        self.tabview = self.widget.tabview  # noqa -> tabview is loaded from ui file
         self.optionsButton = self.widget.optionsButton  # noqa
 
         self.configure_buttons()
@@ -44,11 +46,20 @@ class MainWindow(QMainWindow):
 
         person_widget = PersonWidget()
         self.accessHistoryDialog.person_widget = person_widget
-        tabview.addTab(person_widget, "Persons")
+        tabview.addTab(person_widget, self.tr("Persons"))
 
         inventory_widget = InventoryWidget()
         self.accessHistoryDialog.inventory_widget = inventory_widget
-        tabview.addTab(inventory_widget, "Inventory")
+        tabview.addTab(inventory_widget, self.tr("Inventory"))
+
+        self.tabview.currentChanged.connect(self.reload_current_widget)
+
+    def reload_current_widget(self):
+        current: QWidget = self.tabview.currentWidget()
+        if isinstance(current, TableDialog):
+            search = current.searchLine.text()
+            if isinstance(current, PersonWidget):
+                current.reload_table_contents(PersonModel(search))
 
     def configure_buttons(self):
         self.widget.loadDbButton.clicked.connect(self.load_access_history)  # noqa -> button loaded from ui file

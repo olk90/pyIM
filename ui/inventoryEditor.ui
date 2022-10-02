@@ -17,7 +17,7 @@
    <item>
     <layout class="QVBoxLayout" name="inventoryEditorLayout">
      <item>
-      <widget class="QLabel" name="deviceEditorTitle">
+      <widget class="QLabel" name="editorTitle">
        <property name="font">
         <font>
          <pointsize>14</pointsize>
@@ -170,47 +170,11 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="editDeviceButtonLayout">
-       <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="cancelDeviceEditButton">
-         <property name="minimumSize">
-          <size>
-           <width>94</width>
-           <height>34</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Cancel</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="confirmDeviceEditButton">
-         <property name="minimumSize">
-          <size>
-           <width>94</width>
-           <height>34</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>OK</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
