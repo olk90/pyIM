@@ -26,7 +26,7 @@ class AccessHistoryDialog(QDialog):
         self.person_widget = person_widget
         self.inventory_widget = inventory_widget
 
-        self.view = self.widget.accessHistoryView  # noqa -> view loaded from ui file
+        self.view = self.widget.accessHistoryView
         # for record in access_records:
         #     item = str(record["filePath"])
         #     self.view.addItem(item)
@@ -37,8 +37,8 @@ class AccessHistoryDialog(QDialog):
         self.configure_buttons()
 
     def configure_buttons(self):
-        self.widget.confirmLoadButton.clicked.connect(self.load_contents)  # noqa -> button loaded from ui file
-        self.widget.cancelLoadButton.clicked.connect(self.close)  # noqa -> button loaded from ui file
+        self.widget.confirmLoadButton.clicked.connect(self.load_contents)
+        self.widget.cancelLoadButton.clicked.connect(self.close)
 
     def load_contents(self):
         item = self.view.currentItem()

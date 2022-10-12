@@ -31,8 +31,8 @@ class MainWindow(QMainWindow):
         self.widget = loader.load(ui_file, form)
         ui_file.close()
 
-        self.tabview = self.widget.tabview  # noqa -> tabview is loaded from ui file
-        self.optionsButton = self.widget.optionsButton  # noqa
+        self.tabview = self.widget.tabview
+        self.optionsButton = self.widget.optionsButton
 
         self.configure_buttons()
         self.configure_tabview()
@@ -42,7 +42,7 @@ class MainWindow(QMainWindow):
         form.resize(1600, 900)
 
     def configure_tabview(self):
-        tabview = self.widget.tabview  # noqa -> tabview is loaded from ui file
+        tabview = self.widget.tabview
 
         person_widget = PersonWidget()
         self.accessHistoryDialog.person_widget = person_widget
@@ -62,7 +62,7 @@ class MainWindow(QMainWindow):
                 current.reload_table_contents(PersonModel(search))
 
     def configure_buttons(self):
-        self.widget.loadDbButton.clicked.connect(self.load_access_history)  # noqa -> button loaded from ui file
+        self.widget.loadDbButton.clicked.connect(self.load_access_history)
         self.optionsButton.clicked.connect(self.open_options)
 
     def load_access_history(self):

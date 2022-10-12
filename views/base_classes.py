@@ -25,13 +25,9 @@ class EditorDialog(QDialog):
         self.setMinimumWidth(450)
         self.setWindowTitle(" ")
 
-        ui_file = load_ui_file(ui_file_name)
+        self.widget = EditorWidget(ui_file_name)
 
-        loader = QUiLoader()
-        self.widget = loader.load(ui_file)
-        ui_file.close()
-
-        self.button_box: QDialogButtonBox = self.widget.buttonBox  # noqa
+        self.button_box: QDialogButtonBox = self.get_widget(QDialogButtonBox, "buttonBox")
 
     def configure_widgets(self):
         self.button_box.accepted.connect(self.commit)
@@ -42,11 +38,20 @@ class EditorDialog(QDialog):
     def commit(self):
         """Must be implemented by subclass"""
 
+    def get_widget(self, widget_type: type, name: str):
+        return self.widget.widget.findChild(widget_type, name)
+
+    def clear_fields(self):
+        self.widget.clear_fields()
+
 
 class EditorWidget(QWidget):
 
     def __init__(self, ui_file_name: str, item_id: int = None):
         super(EditorWidget, self).__init__()
+
+        self.validation_fields = []
+
         self.item_id = item_id
         ui_file = load_ui_file(ui_file_name)
 
@@ -57,7 +62,7 @@ class EditorWidget(QWidget):
         self.layout = QHBoxLayout(self)
         self.layout.addWidget(self.widget)
 
-        self.buttonBox: QDialogButtonBox = self.widget.buttonBox  # noqa
+        self.buttonBox: QDialogButtonBox = self.widget.buttonBox
         self.configure_buttons()
 
     def configure_buttons(self):
@@ -69,10 +74,26 @@ class EditorWidget(QWidget):
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(activate)
         self.buttonBox.button(QDialogButtonBox.Cancel).setEnabled(activate)
 
+    def validate(self):
+        enable = True
+        for field in self.validation_fields:
+            if isinstance(field, QLineEdit):
+                if not field.text():
+                    enable = False
+                    break
+        self.toggle_buttons(enable)
+
+    def append_validation_fields(self, *fields):
+        for field in fields:
+            self.validation_fields.append(field)
+
     def get_values(self) -> dict:
         """Must be implemented by subclass"""
 
     def fill_fields(self, item):
+        """Must be implemented by subclass"""
+
+    def clear_fields(self):
         """Must be implemented by subclass"""
 
 
@@ -81,9 +102,9 @@ class OptionsEditorDialog(EditorDialog):
     def __init__(self, parent: QMainWindow):
         super().__init__(parent=parent, ui_file_name="ui/optionsEditor.ui")
 
-        self.locale_box: QComboBox = self.widget.localeBox  # noqa
-        self.theme_box: QComboBox = self.widget.themeBox  # noqa
-        self.button_box: QDialogButtonBox = self.widget.buttonBox  # noqa
+        self.locale_box: QComboBox = self.get_widget(QComboBox, "localeBox")
+        self.theme_box: QComboBox = self.get_widget(QComboBox, "themeBox")
+        self.button_box: QDialogButtonBox = self.get_widget(QDialogButtonBox, "buttonBox")
 
         self.configure_widgets()
 
@@ -138,7 +159,7 @@ class TableDialog(QWidget):
         table_file = load_ui_file(table_ui_name)
         self.table_widget = loader.load(table_file)
         table_file.close()
-        self.searchLine: QLineEdit = self.table_widget.searchLine  # noqa
+        self.searchLine: QLineEdit = self.table_widget.searchLine
 
         self.editor: EditorWidget = self.get_editor_widget()
 
@@ -152,7 +173,7 @@ class TableDialog(QWidget):
             self.configure_search()
 
     def get_table(self) -> QTableView:
-        return self.table_widget.table  # noqa -> loaded from ui file
+        return self.table_widget.table
 
     def setup_table(self, model: SearchTableModel, header_range: range):
         tableview: QTableView = self.get_table()
@@ -179,8 +200,8 @@ class TableDialog(QWidget):
         self.editor.toggle_buttons(True)
 
     def configure_widgets(self):
-        self.table_widget.addButton.clicked.connect(self.add_item)  # noqa -> button loaded from ui file
-        self.table_widget.deleteButton.clicked.connect(self.delete_item)  # noqa -> button loaded from ui file
+        self.table_widget.addButton.clicked.connect(self.add_item)
+        self.table_widget.deleteButton.clicked.connect(self.delete_item)
         self.editor.buttonBox.accepted.connect(self.commit_changes)
         self.editor.buttonBox.rejected.connect(self.revert_changes)
 

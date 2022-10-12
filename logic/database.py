@@ -38,9 +38,11 @@ def init_database():
         sys.exit(1)
 
 
-def find_inventory_by_name(name: str) -> InventoryItem:
-    with Session(db) as session:
-        return session.query(InventoryItem).filter(InventoryItem.name == name).one()
+def find_by_id(identifier: int, entities):
+    s = properties.open_session()
+    result = s.query(entities).filter_by(id=identifier).first()
+    s.close()
+    return result
 
 
 def load_persons(persons):
@@ -94,3 +96,12 @@ def delete_item(item: Base):
     s.delete(item)
     s.commit()
     logger.info("Removed entry from database: %s", item)
+
+
+def update_person(value_dict: dict):
+    s = properties.open_session()
+    person: Person = s.query(Person).filter_by(id=value_dict["item_id"]).first()
+    person.firstname = value_dict["firstname"]
+    person.lastname = value_dict["lastname"]
+    person.email = value_dict["email"]
+    s.commit()
