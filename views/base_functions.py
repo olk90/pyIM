@@ -1,5 +1,5 @@
 import calendar
-import datetime
+import datetime as dt
 import sys
 
 from PySide6.QtCore import QFile
@@ -16,14 +16,14 @@ def load_ui_file(filename):
     return ui_file
 
 
-def configure_month_box(month_box: QComboBox, date=datetime.date.today()):
+def configure_month_box(month_box: QComboBox, date=dt.date.today()):
     items = MonthList().months
     month_box.addItems(items)
     month: int = date.month - 1  # indices start at 0!
     month_box.setCurrentIndex(month)
 
 
-def configure_year_box(year_box: QSpinBox, date=datetime.date.today()):
+def configure_year_box(year_box: QSpinBox, date=dt.date.today()):
     year: int = date.year
     year_box.setMinimum(year)
     year_box.setValue(year)
@@ -34,3 +34,9 @@ def get_day_range(month: int, year: int) -> range:
     end_day = calendar.monthrange(year, month)[1]
     day_range = range(1, end_day + 1)
     return day_range
+
+
+def get_date(month: int, year: int) -> dt.date:
+    day_range = get_day_range(month, year)
+    day = day_range[-1]
+    return dt.date(year, month, day)

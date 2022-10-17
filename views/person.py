@@ -85,10 +85,6 @@ class PersonWidget(TableDialog):
     def configure_search(self):
         self.searchLine.textChanged.connect(lambda x: self.reload_table_contents(PersonModel(self.searchLine.text())))
 
-    def add_item(self):
-        self.add_dialog.clear_fields()
-        self.add_dialog.exec_()
-
     def delete_item(self):
         dialog = ConfirmDeletionDialog(self)
         button = dialog.exec_()

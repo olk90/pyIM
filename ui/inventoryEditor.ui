@@ -83,66 +83,6 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
-           <item>
-            <property name="text">
-             <string>Jan</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Feb</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Mar</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Apr</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>May</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Jun</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Jul</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Aug</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Sep</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Oct</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Nov</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Dec</string>
-            </property>
-           </item>
           </widget>
          </item>
          <item>

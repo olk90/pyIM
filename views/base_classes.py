@@ -163,6 +163,9 @@ class TableDialog(QWidget):
 
         self.editor: EditorWidget = self.get_editor_widget()
 
+        # set this field in subclass!
+        self.add_dialog: EditorDialog
+
         self.layout = QHBoxLayout(self)
         self.layout.addWidget(self.table_widget, stretch=2)
         self.layout.addWidget(self.editor, stretch=1)
@@ -220,7 +223,8 @@ class TableDialog(QWidget):
         """Must be implemented by subclass"""
 
     def add_item(self):
-        """Must be implemented by subclass"""
+        self.add_dialog.clear_fields()
+        self.add_dialog.exec_()
 
     def delete_item(self):
         """Must be implemented by subclass"""

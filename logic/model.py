@@ -1,5 +1,3 @@
-from datetime import date
-
 from sqlalchemy import (Column, Integer, String, Boolean, Date, ForeignKey)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -47,7 +45,7 @@ class InventoryItem(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False, unique=True)
     available = Column(Boolean, nullable=False)
-    lending_date = Column(Date, default=date.today())
+    lending_date = Column(Date)
     info = Column(String(500))
     category = Column(String(100), nullable=False)
     mot_required = Column(Boolean, nullable=False)
