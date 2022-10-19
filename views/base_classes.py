@@ -68,11 +68,11 @@ class EditorWidget(QWidget):
     def configure_buttons(self):
         self.buttonBox.button(QDialogButtonBox.Ok).setText(self.tr("OK"))
         self.buttonBox.button(QDialogButtonBox.Cancel).setText(self.tr("Cancel"))
-        self.toggle_buttons(False)
+        self.toggle_buttons(False, False)
 
-    def toggle_buttons(self, activate: bool):
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(activate)
-        self.buttonBox.button(QDialogButtonBox.Cancel).setEnabled(activate)
+    def toggle_buttons(self, activate_ok: bool, activate_cancel: bool = True):
+        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(activate_ok)
+        self.buttonBox.button(QDialogButtonBox.Cancel).setEnabled(activate_cancel)
 
     def validate(self):
         enable = True

@@ -105,3 +105,15 @@ def update_person(value_dict: dict):
     person.lastname = value_dict["lastname"]
     person.email = value_dict["email"]
     s.commit()
+
+
+def update_inventory(value_dict: dict):
+    s = properties.open_session()
+    item: InventoryItem = s.query(InventoryItem).filter_by(id=value_dict["item_id"]).first()
+    item.name = value_dict["name"]
+    item.category = value_dict["category"]
+    item.info = value_dict["info"]
+    item.mot_required = value_dict["mot_required"]
+    item.next_mot = value_dict["next_mot"]
+    item.available = value_dict["available"]
+    s.commit()

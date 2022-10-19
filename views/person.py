@@ -20,8 +20,7 @@ class AddPersonDialog(EditorDialog):
         self.firstname_edit.textChanged.connect(self.widget.validate)
         self.lastname_edit.textChanged.connect(self.widget.validate)
 
-        self.widget.append_validation_fields(self.firstname_edit)
-        self.widget.append_validation_fields(self.lastname_edit)
+        self.widget.append_validation_fields(self.firstname_edit, self.lastname_edit)
 
         self.email_edit: QLineEdit = self.get_widget(QLineEdit, "emailEdit")
 
@@ -50,6 +49,11 @@ class PersonEditorWidget(EditorWidget):
         self.firstname_edit = self.widget.firstNameEdit
         self.lastname_edit = self.widget.lastNameEdit
         self.email_edit = self.widget.emailEdit
+
+        self.firstname_edit.textChanged.connect(self.validate)
+        self.lastname_edit.textChanged.connect(self.validate)
+
+        self.append_validation_fields(self.firstname_edit, self.lastname_edit)
 
     def fill_fields(self, person: Person):
         self.item_id = person.id
@@ -108,4 +112,5 @@ class PersonWidget(TableDialog):
         self.editor.clear_fields()
 
     def revert_changes(self):
-        """Must be implemented by subclass"""
+        person: Person = find_by_id(self.editor.item_id, Person)
+        self.editor.fill_fields(person)

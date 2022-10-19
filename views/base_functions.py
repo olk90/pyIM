@@ -36,7 +36,9 @@ def get_day_range(month: int, year: int) -> range:
     return day_range
 
 
-def get_date(month: int, year: int) -> dt.date:
+def get_date(mot_required: bool, month: int, year: int) -> dt.date | None:
+    if not mot_required:
+        return None
     day_range = get_day_range(month, year)
     day = day_range[-1]
     return dt.date(year, month, day)

@@ -3,7 +3,7 @@ from datetime import date
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QPushButton, QComboBox, QSpinBox, QPlainTextEdit, QCheckBox, \
     QLineEdit, QDialogButtonBox, QLabel
 
-from logic.database import persist_item, find_by_id
+from logic.database import persist_item, find_by_id, update_inventory
 from logic.model import InventoryItem
 from logic.table_models import InventoryModel
 from views.base_classes import TableDialog, EditorDialog, EditorWidget
@@ -23,8 +23,7 @@ class AddInventoryDialog(EditorDialog):
         self.name_edit.textChanged.connect(self.widget.validate)
         self.category_edit.textChanged.connect(self.widget.validate)
 
-        self.widget.append_validation_fields(self.name_edit)
-        self.widget.append_validation_fields(self.category_edit)
+        self.widget.append_validation_fields(self.name_edit, self.category_edit)
 
         self.next_mot_button: QPushButton = self.get_widget(QPushButton, "nextMotButton")
         self.month_combobox: QComboBox = self.get_widget(QComboBox, "monthCombo")
@@ -75,6 +74,12 @@ class InventoryEditorWidget(EditorWidget):
 
         self.name_edit: QLineEdit = self.widget.nameEdit
         self.category_edit: QLineEdit = self.widget.categoryEdit
+
+        self.name_edit.textChanged.connect(self.validate)
+        self.category_edit.textChanged.connect(self.validate)
+
+        self.append_validation_fields(self.name_edit, self.category_edit)
+
         self.available_checkbox: QCheckBox = self.widget.availableCheckbox
         self.next_mot_button: QPushButton = self.widget.nextMotButton
         self.month_combobox: QComboBox = self.widget.monthCombo
@@ -97,6 +102,7 @@ class InventoryEditorWidget(EditorWidget):
         self.category_edit.setText(item.category)
         self.info_edit.setPlainText(item.info)
         self.available_checkbox.setChecked(item.available)
+        self.next_mot_button.setChecked(item.mot_required)
 
         if item.mot_required:
             mot_date = item.next_mot
@@ -104,12 +110,14 @@ class InventoryEditorWidget(EditorWidget):
             self.year_spinner.setValue(mot_date.year)
 
     def get_values(self) -> dict:
+        mot_required: bool = self.next_mot_button.isChecked()
         return {
             "item_id": self.item_id,
             "name": self.name_edit.text(),
             "category": self.category_edit.text(),
             "info": self.info_edit.toPlainText(),
-            "next_mot": get_date(self.month, self.year),
+            "mot_required": mot_required,
+            "next_mot": get_date(mot_required, self.month, self.year),
             "available": self.available_checkbox.isChecked()
         }
 
@@ -121,7 +129,9 @@ class InventoryEditorWidget(EditorWidget):
         self.name_edit.setText("")
         self.category_edit.setText("")
         self.available_checkbox.setChecked(False)
+        self.next_mot_button.setChecked(False)
         self.info_edit.insertPlainText("")
+        self.toggle_buttons(False, False)
 
 
 class InventoryWidget(TableDialog):
@@ -142,3 +152,14 @@ class InventoryWidget(TableDialog):
         item_id = super().get_selected_item()
         item = find_by_id(item_id, InventoryItem)
         return item
+
+    def commit_changes(self):
+        value_dict: dict = self.editor.get_values()
+        update_inventory(value_dict)
+        search = self.searchLine.text()
+        self.reload_table_contents(model=InventoryModel(search))
+        self.editor.clear_fields()
+
+    def revert_changes(self):
+        item: InventoryItem = find_by_id(self.editor.item_id, InventoryItem)
+        self.editor.fill_fields(item)
