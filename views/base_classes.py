@@ -120,6 +120,8 @@ class OptionsEditorDialog(EditorDialog):
         self.theme_box.addItems(properties.get_themes())
         self.theme_box.setCurrentIndex(properties.theme_index)
 
+        self.widget.toggle_buttons(True)
+
     def commit(self):
         restart_required: bool = self.update_locale()
         self.update_theme()
@@ -199,8 +201,9 @@ class TableDialog(QWidget):
 
     def reload_editor(self):
         item = self.get_selected_item()
-        self.editor.fill_fields(item)
-        self.editor.toggle_buttons(True)
+        if item:
+            self.editor.fill_fields(item)
+            self.editor.toggle_buttons(True)
 
     def configure_widgets(self):
         self.table_widget.addButton.clicked.connect(self.add_item)
@@ -213,8 +216,11 @@ class TableDialog(QWidget):
         selection_model: QItemSelectionModel = tableview.selectionModel()
         indexes: QModelIndex = selection_model.selectedRows()
         model = tableview.model()
-        index = indexes[0]
-        return model.data(model.index(index.row(), 0))
+        if len(indexes) > 0:
+            index = indexes[0]
+            return model.data(model.index(index.row(), 0))
+        else:
+            return None
 
     def configure_search(self):
         """Must be implemented by subclass"""

@@ -1,14 +1,17 @@
-from datetime import date
+from datetime import date, datetime
+from typing import Union
 
+from PySide6.QtCore import QModelIndex, QPersistentModelIndex, Qt
+from PySide6.QtGui import QPainter
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QPushButton, QComboBox, QSpinBox, QPlainTextEdit, QCheckBox, \
-    QLineEdit, QDialogButtonBox, QLabel
+    QLineEdit, QDialogButtonBox, QLabel, QStyleOptionViewItem, QStyleOptionButton, QTableView
 
 from logic.database import persist_item, find_by_id, update_inventory
 from logic.model import InventoryItem
 from logic.table_models import InventoryModel
-from views.base_classes import TableDialog, EditorDialog, EditorWidget
+from views.base_classes import TableDialog, EditorDialog, EditorWidget, CenteredItemDelegate
 from views.base_functions import configure_month_box, configure_year_box, get_day_range, get_date
-from views.helpers import configure_next_mot
+from views.helpers import configure_next_mot, calculate_background
 
 
 class AddInventoryDialog(EditorDialog):
@@ -86,12 +89,12 @@ class InventoryEditorWidget(EditorWidget):
         self.year_spinner: QSpinBox = self.widget.yearSpinner
         self.info_edit: QPlainTextEdit = self.widget.infoEdit
 
-        self.year = self.year_spinner.value()
-        self.month = self.month_combobox.currentIndex() + 1
-
         configure_next_mot(self.month_combobox, self.year_spinner)
         configure_month_box(self.month_combobox)
         configure_year_box(self.year_spinner)
+
+        self.year = self.year_spinner.value()
+        self.month = self.month_combobox.currentIndex() + 1
 
         self.month_combobox.currentTextChanged.connect(self.update_mot)
         self.year_spinner.valueChanged.connect(self.update_mot)
@@ -141,6 +144,10 @@ class InventoryWidget(TableDialog):
         self.add_dialog = AddInventoryDialog(self)
         self.setup_table(InventoryModel(), range(1, 7))
 
+        tableview: QTableView = self.get_table()
+        delegate: InventoryItemDelegate = InventoryItemDelegate()
+        tableview.setItemDelegate(delegate)
+
     def get_editor_widget(self) -> EditorWidget:
         return InventoryEditorWidget()
 
@@ -163,3 +170,55 @@ class InventoryWidget(TableDialog):
     def revert_changes(self):
         item: InventoryItem = find_by_id(self.editor.item_id, InventoryItem)
         self.editor.fill_fields(item)
+
+
+class InventoryItemDelegate(CenteredItemDelegate):
+
+    def __init__(self):
+        super(InventoryItemDelegate, self).__init__()
+
+    def paint(self, painter: QPainter, option: QStyleOptionViewItem, index: Union[QModelIndex, QPersistentModelIndex]):
+        self.format_background(index, option, painter)
+
+        # available
+        if index.column() == 3:
+            self.format_checkbox(index, option, painter)
+        # lending date/MOT date
+        elif index.column() in [4, 6]:
+            self.format_dates(index, option, painter)
+        else:
+            super(InventoryItemDelegate, self).paint(painter, option, index)
+
+    @staticmethod
+    def format_background(index, option, painter):
+        model = index.model()
+        date_str: str = model.index(index.row(), 6).data()
+        if date_str:
+            mot_date = datetime.strptime(date_str, '%Y-%m-%d')
+            calculate_background(mot_date, option, painter)
+
+    def format_checkbox(self, index, option, painter):
+        model = index.model()
+        data = model.index(index.row(), index.column()).data()
+        opt: QStyleOptionButton = QStyleOptionButton()
+        opt.rect = option.rect
+        if data:
+            value = Qt.Checked
+        else:
+            value = Qt.Unchecked
+        self.drawCheck(painter, option, option.rect, value)
+        self.drawFocus(painter, option, option.rect)
+
+    def format_dates(self, index, option, painter):
+        model = index.model()
+        date_str: str = model.index(index.row(), index.column()).data()
+        text: str = ""
+        if date_str:
+            if index.column() == 4:
+                l_date = datetime.strptime(date_str, '%Y-%m-%d')
+                text = l_date.strftime("%a, %d %b %Y")
+            else:
+                mot_date = datetime.strptime(date_str, '%Y-%m-%d')
+                text = mot_date.strftime("%b/%Y")
+        option.displayAlignment = Qt.AlignCenter
+        self.drawDisplay(painter, option, option.rect, text)

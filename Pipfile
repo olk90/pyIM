@@ -12,6 +12,7 @@ pyside6 = "==6.3.2"
 shiboken6 = "==6.3.2"
 sqlalchemy = "==1.4.41"
 pyqtdarktheme = "==1.1.0"
+python-dateutil = "*"
 
 [dev-packages]
 
