@@ -4,13 +4,14 @@ from typing import Union
 from PySide6.QtCore import QModelIndex, QPersistentModelIndex, Qt
 from PySide6.QtGui import QPainter
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QPushButton, QComboBox, QSpinBox, QPlainTextEdit, QCheckBox, \
-    QLineEdit, QDialogButtonBox, QLabel, QStyleOptionViewItem, QStyleOptionButton, QTableView
+    QLineEdit, QDialogButtonBox, QLabel, QStyleOptionViewItem, QStyleOptionButton, QTableView, QMessageBox
 
-from logic.database import persist_item, find_by_id, update_inventory
+from logic.database import persist_item, find_by_id, update_inventory, delete_item
 from logic.model import InventoryItem
 from logic.table_models import InventoryModel
 from views.base_classes import TableDialog, EditorDialog, EditorWidget, CenteredItemDelegate
 from views.base_functions import configure_month_box, configure_year_box, get_day_range, get_date
+from views.confirmationDialogs import ConfirmDeletionDialog
 from views.helpers import configure_next_mot, calculate_background
 
 
@@ -154,6 +155,16 @@ class InventoryWidget(TableDialog):
     def configure_search(self):
         self.searchLine.textChanged.connect(
             lambda x: self.reload_table_contents(InventoryModel(self.searchLine.text())))
+
+    def delete_item(self):
+        dialog = ConfirmDeletionDialog(self)
+        button = dialog.exec_()
+        if button == QMessageBox.AcceptRole:
+            item: InventoryItem = self.get_selected_item()
+            delete_item(item)
+            search = self.searchLine.text()
+            self.reload_table_contents(model=InventoryModel(search))
+            self.editor.clear_fields()
 
     def get_selected_item(self):
         item_id = super().get_selected_item()
