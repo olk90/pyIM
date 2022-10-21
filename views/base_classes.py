@@ -154,11 +154,11 @@ class OptionsEditorDialog(EditorDialog):
 
 class TableDialog(QWidget):
 
-    def __init__(self, table_ui_name: str, configure_widgets: bool = True):
+    def __init__(self, configure_widgets: bool = True):
         super(TableDialog, self).__init__()
         loader = QUiLoader()
 
-        table_file = load_ui_file(table_ui_name)
+        table_file = load_ui_file("ui/tableView.ui")
         self.table_widget = loader.load(table_file)
         table_file.close()
         self.searchLine: QLineEdit = self.table_widget.searchLine

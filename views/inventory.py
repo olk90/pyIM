@@ -141,7 +141,7 @@ class InventoryEditorWidget(EditorWidget):
 class InventoryWidget(TableDialog):
 
     def __init__(self):
-        super(InventoryWidget, self).__init__(table_ui_name="ui/inventoryView.ui")
+        super(InventoryWidget, self).__init__()
         self.add_dialog = AddInventoryDialog(self)
         self.setup_table(InventoryModel(), range(1, 7))
 

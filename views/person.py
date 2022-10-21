@@ -79,7 +79,7 @@ class PersonEditorWidget(EditorWidget):
 class PersonWidget(TableDialog):
 
     def __init__(self):
-        super(PersonWidget, self).__init__(table_ui_name="ui/personView.ui")
+        super(PersonWidget, self).__init__()
         self.add_dialog = AddPersonDialog(self)
         self.setup_table(PersonModel(), range(1, 4))
 

@@ -4,7 +4,7 @@
 <context>
     <name>AddInventoryDialog</name>
     <message>
-        <location filename="views/inventory.py" line="15"/>
+        <location filename="views/inventory.py" line="22"/>
         <source>Add Device</source>
         <translation>Gerät hinzufügen</translation>
     </message>
@@ -12,7 +12,7 @@
 <context>
     <name>AddPersonDialog</name>
     <message>
-        <location filename="views/person.py" line="14"/>
+        <location filename="views/person.py" line="15"/>
         <source>Add Person</source>
         <translation>Person hinzufügen</translation>
     </message>
@@ -57,12 +57,12 @@
 <context>
     <name>EditorDialog</name>
     <message>
-        <location filename="views/base_classes.py" line="39"/>
+        <location filename="views/base_classes.py" line="35"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="views/base_classes.py" line="40"/>
+        <location filename="views/base_classes.py" line="36"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -70,12 +70,12 @@
 <context>
     <name>EditorWidget</name>
     <message>
-        <location filename="views/base_classes.py" line="64"/>
+        <location filename="views/base_classes.py" line="69"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="views/base_classes.py" line="65"/>
+        <location filename="views/base_classes.py" line="70"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -308,67 +308,55 @@
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="ui/inventoryEditor.ui" line="88"/>
         <source>Jan</source>
-        <translation>Jan</translation>
+        <translation type="vanished">Jan</translation>
     </message>
     <message>
-        <location filename="ui/inventoryEditor.ui" line="93"/>
         <source>Feb</source>
-        <translation>Feb</translation>
+        <translation type="vanished">Feb</translation>
     </message>
     <message>
-        <location filename="ui/inventoryEditor.ui" line="98"/>
         <source>Mar</source>
-        <translation>Mär</translation>
+        <translation type="vanished">Mär</translation>
+    </message>
+    <message>
+        <source>Apr</source>
+        <translation type="vanished">Apr</translation>
+    </message>
+    <message>
+        <source>May</source>
+        <translation type="vanished">Mai</translation>
+    </message>
+    <message>
+        <source>Jun</source>
+        <translation type="vanished">Jun</translation>
+    </message>
+    <message>
+        <source>Jul</source>
+        <translation type="vanished">Jul</translation>
+    </message>
+    <message>
+        <source>Aug</source>
+        <translation type="vanished">Aug</translation>
+    </message>
+    <message>
+        <source>Sep</source>
+        <translation type="vanished">Sep</translation>
+    </message>
+    <message>
+        <source>Oct</source>
+        <translation type="vanished">Okt</translation>
+    </message>
+    <message>
+        <source>Nov</source>
+        <translation type="vanished">Nov</translation>
+    </message>
+    <message>
+        <source>Dec</source>
+        <translation type="vanished">Dez</translation>
     </message>
     <message>
         <location filename="ui/inventoryEditor.ui" line="103"/>
-        <source>Apr</source>
-        <translation>Apr</translation>
-    </message>
-    <message>
-        <location filename="ui/inventoryEditor.ui" line="108"/>
-        <source>May</source>
-        <translation>Mai</translation>
-    </message>
-    <message>
-        <location filename="ui/inventoryEditor.ui" line="113"/>
-        <source>Jun</source>
-        <translation>Jun</translation>
-    </message>
-    <message>
-        <location filename="ui/inventoryEditor.ui" line="118"/>
-        <source>Jul</source>
-        <translation>Jul</translation>
-    </message>
-    <message>
-        <location filename="ui/inventoryEditor.ui" line="123"/>
-        <source>Aug</source>
-        <translation>Aug</translation>
-    </message>
-    <message>
-        <location filename="ui/inventoryEditor.ui" line="128"/>
-        <source>Sep</source>
-        <translation>Sep</translation>
-    </message>
-    <message>
-        <location filename="ui/inventoryEditor.ui" line="133"/>
-        <source>Oct</source>
-        <translation>Okt</translation>
-    </message>
-    <message>
-        <location filename="ui/inventoryEditor.ui" line="138"/>
-        <source>Nov</source>
-        <translation>Nov</translation>
-    </message>
-    <message>
-        <location filename="ui/inventoryEditor.ui" line="143"/>
-        <source>Dec</source>
-        <translation>Dez</translation>
-    </message>
-    <message>
-        <location filename="ui/inventoryEditor.ui" line="163"/>
         <source>Next MOT</source>
         <translation>Nächster TÜV</translation>
     </message>
@@ -384,24 +372,20 @@
 <context>
     <name>inventoryView</name>
     <message>
-        <location filename="ui/inventoryView.ui" line="20"/>
         <source>Form</source>
-        <translation>Formular</translation>
+        <translation type="vanished">Formular</translation>
     </message>
     <message>
-        <location filename="ui/inventoryView.ui" line="28"/>
         <source>Search ...</source>
-        <translation>Suche ...</translation>
+        <translation type="vanished">Suche ...</translation>
     </message>
     <message>
-        <location filename="ui/inventoryView.ui" line="43"/>
         <source>Add</source>
-        <translation>Hinzufügen</translation>
+        <translation type="vanished">Hinzufügen</translation>
     </message>
     <message>
-        <location filename="ui/inventoryView.ui" line="56"/>
         <source>Delete</source>
-        <translation>Löschen</translation>
+        <translation type="vanished">Löschen</translation>
     </message>
 </context>
 <context>
@@ -430,22 +414,22 @@
 <context>
     <name>personView</name>
     <message>
-        <location filename="ui/personView.ui" line="20"/>
+        <location filename="ui/tableView.ui" line="20"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
-        <location filename="ui/personView.ui" line="28"/>
+        <location filename="ui/tableView.ui" line="28"/>
         <source>Search ...</source>
         <translation>Suche ...</translation>
     </message>
     <message>
-        <location filename="ui/personView.ui" line="43"/>
+        <location filename="ui/tableView.ui" line="43"/>
         <source>Add</source>
         <translation>Hinzufügen</translation>
     </message>
     <message>
-        <location filename="ui/personView.ui" line="56"/>
+        <location filename="ui/tableView.ui" line="56"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
