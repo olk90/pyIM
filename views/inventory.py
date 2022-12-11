@@ -4,10 +4,11 @@ from typing import Union
 from PySide6.QtCore import QModelIndex, QPersistentModelIndex, Qt
 from PySide6.QtGui import QPainter
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QPushButton, QComboBox, QSpinBox, QPlainTextEdit, QCheckBox, \
-    QLineEdit, QDialogButtonBox, QLabel, QStyleOptionViewItem, QStyleOptionButton, QTableView, QMessageBox
+    QLineEdit, QDialogButtonBox, QLabel, QStyleOptionViewItem, QStyleOptionButton, QTableView, QMessageBox, QToolButton
 
-from logic.database import persist_item, find_by_id, update_inventory, delete_item
-from logic.model import InventoryItem
+from logic.database import persist_item, find_by_id, update_inventory, delete_item, configure_query_model
+from logic.model import InventoryItem, Person
+from logic.queries import person_fullname_query
 from logic.table_models import InventoryModel
 from views.base_classes import TableDialog, EditorDialog, EditorWidget, CenteredItemDelegate
 from views.base_functions import configure_month_box, configure_year_box, get_day_range, get_date
@@ -90,6 +91,17 @@ class InventoryEditorWidget(EditorWidget):
         self.year_spinner: QSpinBox = self.widget.yearSpinner
         self.info_edit: QPlainTextEdit = self.widget.infoEdit
 
+        self.lender_combobox: QComboBox = self.widget.lenderBox
+        self.return_button: QToolButton = self.widget.returnButton
+
+        self.lender_id: int = -1
+        self.lender_combobox.currentIndexChanged.connect(self.update_lender_id)
+        self.lender_combobox.currentIndexChanged.connect(self.validate)
+
+        query: str = person_fullname_query()
+        configure_query_model(self.lender_combobox, query)
+        self.return_button.clicked.connect(self.return_item)
+
         configure_next_mot(self.month_combobox, self.year_spinner)
         configure_month_box(self.month_combobox)
         configure_year_box(self.year_spinner)
@@ -113,6 +125,14 @@ class InventoryEditorWidget(EditorWidget):
             self.month_combobox.setCurrentIndex(mot_date.month - 1)
             self.year_spinner.setValue(mot_date.year)
 
+        if item.lender_id:
+            self.lender_id = item.lender_id
+            lender: Person = find_by_id(self.lender_id, Person)
+            if lender:
+                self.lender_combobox.setCurrentText(lender.get_full_name())
+        else:
+            self.lender_combobox.setCurrentIndex(-1)
+
     def get_values(self) -> dict:
         mot_required: bool = self.next_mot_button.isChecked()
         return {
@@ -122,12 +142,31 @@ class InventoryEditorWidget(EditorWidget):
             "info": self.info_edit.toPlainText(),
             "mot_required": mot_required,
             "next_mot": get_date(mot_required, self.month, self.year),
-            "available": self.available_checkbox.isChecked()
+            "available": self.available_checkbox.isChecked(),
+            "lender": self.lender_id
         }
+
+    def validate(self) -> bool:
+        enable: bool = super(InventoryEditorWidget, self).validate()
+        if enable:
+            item: InventoryItem = find_by_id(self.item_id, InventoryItem)
+            mot_expired: bool = date.today() >= item.next_mot
+            selected_index: int = self.lender_combobox.currentIndex()
+            enable = (mot_expired and selected_index < 0) or not mot_expired
+        self.toggle_buttons(enable)
+        return enable
 
     def update_mot(self):
         self.year = self.year_spinner.value()
         self.month = self.month_combobox.currentIndex() + 1
+
+    def return_item(self):
+        self.lender_combobox.setCurrentIndex(-1)
+
+    def update_lender_id(self):
+        index = self.lender_combobox.currentIndex()
+        selected_id = self.lender_combobox.model().index(index, 1).data()
+        self.lender_id = selected_id
 
     def clear_fields(self):
         self.name_edit.setText("")
@@ -136,6 +175,7 @@ class InventoryEditorWidget(EditorWidget):
         self.next_mot_button.setChecked(False)
         self.info_edit.insertPlainText("")
         self.toggle_buttons(False, False)
+        self.lender_combobox.setCurrentIndex(-1)
 
 
 class InventoryWidget(TableDialog):

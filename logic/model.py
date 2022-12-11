@@ -64,10 +64,10 @@ class LendingHistory(Base):
     lending_date = Column(Date)
     return_date = Column(Date)
 
-    lender_id = Column(Integer, ForeignKey("Person.id"))
+    lender_id = Column(Integer, ForeignKey("Person.id"), nullable=False)
     lender = relationship("Person", back_populates="history")
 
-    item_id = Column(Integer, ForeignKey("InventoryItem.id"))
+    item_id = Column(Integer, ForeignKey("InventoryItem.id"), nullable=False)
     item = relationship("InventoryItem", back_populates="lendings")
 
 

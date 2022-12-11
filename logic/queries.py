@@ -33,3 +33,32 @@ def inventory_query(search: str) -> str:
             or p.lastname like '%{search}%'
     """.format(search=search)
     return query
+
+
+def person_fullname_query() -> str:
+    query = """
+        select
+            p.firstname || ' ' || p.lastname as name,
+            p.id 
+        from Person p
+        order by p.lastname, p.firstname
+        """
+    return query
+
+
+def lending_history_query(search: str) -> str:
+    query = """
+        select 
+            l.id,
+            p.firstname || ' ' || p.lastname,
+            l.lending_date,
+            l.return_date
+        from LendingHistory l
+        inner join Person p on l.lender_id = p.id
+        inner join InventoryItem i on l.item_id = i.id
+        where
+            i.name like '%{search}%'
+            or p.firstname like '%{search}%'
+            or p.lastname like '%{search}%'
+    """.format(search=search)
+    return query

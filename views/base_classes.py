@@ -74,7 +74,7 @@ class EditorWidget(QWidget):
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(activate_ok)
         self.buttonBox.button(QDialogButtonBox.Cancel).setEnabled(activate_cancel)
 
-    def validate(self):
+    def validate(self) -> bool:
         enable = True
         for field in self.validation_fields:
             if isinstance(field, QLineEdit):
@@ -82,6 +82,7 @@ class EditorWidget(QWidget):
                     enable = False
                     break
         self.toggle_buttons(enable)
+        return enable
 
     def append_validation_fields(self, *fields):
         for field in fields:

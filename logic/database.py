@@ -1,15 +1,17 @@
 import logging
 import sys
-from datetime import datetime
+from datetime import datetime, date
 from logging.handlers import RotatingFileHandler
 
-from PySide6.QtSql import QSqlDatabase
+from PySide6.QtCore import Qt
+from PySide6.QtSql import QSqlDatabase, QSqlQueryModel
+from PySide6.QtWidgets import QComboBox
 from sqlalchemy import create_engine as ce
 from sqlalchemy.orm import Session
 
 from logic import configure_file_handler
 from logic.config import properties
-from logic.model import create_tables, Person, InventoryItem, Base
+from logic.model import create_tables, Person, InventoryItem, Base, LendingHistory
 
 db = ce("sqlite:///pyIM.db")
 
@@ -84,6 +86,14 @@ def convert_date(date_str: str):
         return None
 
 
+def configure_query_model(box: QComboBox, query: str):
+    model = QSqlQueryModel(box)
+    model.setQuery(query)
+    model.setHeaderData(0, Qt.Horizontal, "Name")
+    box.setModel(model)
+    box.setEditable(True)
+
+
 def persist_item(item: Base):
     s = properties.open_session()
     s.add(item)
@@ -98,22 +108,51 @@ def delete_item(item: Base):
     logger.info("Removed entry from database: %s", item)
 
 
-def update_person(value_dict: dict):
-    s = properties.open_session()
-    person: Person = s.query(Person).filter_by(id=value_dict["item_id"]).first()
-    person.firstname = value_dict["firstname"]
-    person.lastname = value_dict["lastname"]
-    person.email = value_dict["email"]
-    s.commit()
-
-
 def update_inventory(value_dict: dict):
     s = properties.open_session()
-    item: InventoryItem = s.query(InventoryItem).filter_by(id=value_dict["item_id"]).first()
+    item_id = value_dict["item_id"]
+    item: InventoryItem = s.query(InventoryItem).filter_by(id=item_id).first()
     item.name = value_dict["name"]
     item.category = value_dict["category"]
     item.info = value_dict["info"]
     item.mot_required = value_dict["mot_required"]
     item.next_mot = value_dict["next_mot"]
     item.available = value_dict["available"]
+
+    lender_id = value_dict["lender"]
+    item.lender_id = lender_id
+    if lender_id:
+        check_and_lend(s, lender_id, item_id)
+    else:
+        check_and_return(s, item_id)
+
+    s.commit()
+
+
+def check_and_lend(s: Session, lender_id: int, item_id: int):
+    history_record = s.query(LendingHistory).filter(
+        LendingHistory.lender_id == lender_id,
+        LendingHistory.item_id == item_id,
+        LendingHistory.return_date == None
+    ).first()
+    if not history_record:
+        history_record = LendingHistory(lending_date=date.today(), item_id=item_id, lender_id=lender_id)
+        s.add(history_record)
+
+
+def check_and_return(s: Session, item_id: int):
+    history_record = s.query(LendingHistory).filter(
+        LendingHistory.item_id == item_id,
+        LendingHistory.return_date == None
+    ).first()
+    if history_record:
+        history_record.return_date = date.today()
+
+
+def update_person(value_dict: dict):
+    s = properties.open_session()
+    person: Person = s.query(Person).filter_by(id=value_dict["item_id"]).first()
+    person.firstname = value_dict["firstname"]
+    person.lastname = value_dict["lastname"]
+    person.email = value_dict["email"]
     s.commit()
