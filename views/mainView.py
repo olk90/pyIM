@@ -2,7 +2,7 @@ from PySide6.QtGui import QIcon
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget
 
-from logic.table_models import PersonModel
+from logic.table_models import PersonModel, InventoryModel
 from views.base_classes import OptionsEditorDialog, TableDialog
 from views.dataContainerDialogs import AccessHistoryDialog
 from views.helpers import load_ui_file
@@ -60,6 +60,8 @@ class MainWindow(QMainWindow):
             search = current.searchLine.text()
             if isinstance(current, PersonWidget):
                 current.reload_table_contents(PersonModel(search))
+            if isinstance(current, InventoryWidget):
+                current.reload_table_contents(InventoryModel(search))
 
     def configure_buttons(self):
         self.widget.loadDbButton.clicked.connect(self.load_access_history)

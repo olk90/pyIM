@@ -10,7 +10,7 @@ from logic.database import persist_item, find_by_id, update_inventory, delete_it
     check_and_return
 from logic.model import InventoryItem, Person
 from logic.queries import person_fullname_query
-from logic.table_models import InventoryModel
+from logic.table_models import InventoryModel, SearchTableModel
 from views.base_classes import TableDialog, EditorDialog, EditorWidget, CenteredItemDelegate
 from views.base_functions import configure_month_box, configure_year_box, get_day_range, get_date
 from views.confirmationDialogs import ConfirmDeletionDialog
@@ -39,6 +39,14 @@ class AddInventoryDialog(EditorDialog):
 
         self.available_checkbox: QCheckBox = self.get_widget(QCheckBox, "availableCheckbox")
         self.info_edit: QPlainTextEdit = self.get_widget(QPlainTextEdit, "infoEdit")
+
+        # lending options not needed here
+        lender_label = self.get_widget(QLabel, "lenderLabel")
+        lender_box = self.get_widget(QComboBox, "lenderBox")
+        return_button = self.get_widget(QToolButton, "returnButton")
+        lender_label.deleteLater()
+        lender_box.deleteLater()
+        return_button.deleteLater()
 
         self.layout = QHBoxLayout(self)
         self.layout.addWidget(self.widget)
@@ -99,8 +107,7 @@ class InventoryEditorWidget(EditorWidget):
         self.lender_combobox.currentIndexChanged.connect(self.update_lender_id)
         self.lender_combobox.currentIndexChanged.connect(self.validate)
 
-        query: str = person_fullname_query()
-        configure_query_model(self.lender_combobox, query)
+        self.reload_lender_box()
 
         configure_next_mot(self.month_combobox, self.year_spinner)
         configure_month_box(self.month_combobox)
@@ -111,6 +118,10 @@ class InventoryEditorWidget(EditorWidget):
 
         self.month_combobox.currentTextChanged.connect(self.update_mot)
         self.year_spinner.valueChanged.connect(self.update_mot)
+
+    def reload_lender_box(self):
+        query: str = person_fullname_query()
+        configure_query_model(self.lender_combobox, query)
 
     def fill_fields(self, item: InventoryItem):
         self.item_id = item.id
@@ -229,6 +240,10 @@ class InventoryWidget(TableDialog):
     def revert_changes(self):
         item: InventoryItem = find_by_id(self.editor.item_id, InventoryItem)
         self.editor.fill_fields(item)
+
+    def reload_table_contents(self, model: SearchTableModel):
+        super().reload_table_contents(model)
+        self.editor.reload_lender_box()
 
 
 class InventoryItemDelegate(CenteredItemDelegate):
