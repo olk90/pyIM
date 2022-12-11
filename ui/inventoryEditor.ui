@@ -110,7 +110,7 @@
        <item row="5" column="0">
         <widget class="QLabel" name="lenderLabel">
          <property name="text">
-          <string>Lend to</string>
+          <string>Lent to</string>
          </property>
         </widget>
        </item>

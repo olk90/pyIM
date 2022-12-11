@@ -4,7 +4,7 @@
 <context>
     <name>AddInventoryDialog</name>
     <message>
-        <location filename="views/inventory.py" line="22"/>
+        <location filename="views/inventory.py" line="24"/>
         <source>Add Device</source>
         <translation>Gerät hinzufügen</translation>
     </message>
@@ -293,17 +293,28 @@
         <translation>Gerät</translation>
     </message>
     <message>
-        <location filename="ui/inventoryEditor.ui" line="48"/>
+        <location filename="ui/inventoryEditor.ui" line="58"/>
         <source>Available</source>
         <translation>Verfügbar</translation>
     </message>
     <message>
-        <location filename="ui/inventoryEditor.ui" line="62"/>
+        <location filename="ui/inventoryEditor.ui" line="113"/>
+        <source>Lent to</source>
+        <oldsource>Lend to</oldsource>
+        <translation>Ausgeliehen an</translation>
+    </message>
+    <message>
+        <location filename="ui/inventoryEditor.ui" line="131"/>
+        <source>Return</source>
+        <translation>Rückgabe</translation>
+    </message>
+    <message>
+        <location filename="ui/inventoryEditor.ui" line="48"/>
         <source>Category</source>
         <translation>Kategorie</translation>
     </message>
     <message>
-        <location filename="ui/inventoryEditor.ui" line="72"/>
+        <location filename="ui/inventoryEditor.ui" line="103"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
@@ -356,7 +367,7 @@
         <translation type="vanished">Dez</translation>
     </message>
     <message>
-        <location filename="ui/inventoryEditor.ui" line="103"/>
+        <location filename="ui/inventoryEditor.ui" line="72"/>
         <source>Next MOT</source>
         <translation>Nächster TÜV</translation>
     </message>
