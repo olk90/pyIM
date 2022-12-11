@@ -122,31 +122,37 @@ def update_inventory(value_dict: dict):
     lender_id = value_dict["lender"]
     item.lender_id = lender_id
     if lender_id:
-        check_and_lend(s, lender_id, item_id)
-    else:
-        check_and_return(s, item_id)
-
+        check_and_lend(s, lender_id, item)
+    # else:
+    #     check_and_return(s, item)
     s.commit()
 
 
-def check_and_lend(s: Session, lender_id: int, item_id: int):
+def check_and_lend(s: Session, lender_id: int, item: InventoryItem):
     history_record = s.query(LendingHistory).filter(
         LendingHistory.lender_id == lender_id,
-        LendingHistory.item_id == item_id,
+        LendingHistory.item_id == item.id,
         LendingHistory.return_date == None
     ).first()
     if not history_record:
-        history_record = LendingHistory(lending_date=date.today(), item_id=item_id, lender_id=lender_id)
+        today = date.today()
+        history_record = LendingHistory(lending_date=today, item_id=item.id, lender_id=lender_id)
         s.add(history_record)
+        item.lending_date = today
 
 
-def check_and_return(s: Session, item_id: int):
+def check_and_return(item_id: int):
+    s = properties.open_session()
     history_record = s.query(LendingHistory).filter(
         LendingHistory.item_id == item_id,
         LendingHistory.return_date == None
     ).first()
     if history_record:
         history_record.return_date = date.today()
+        item = s.query(InventoryItem).filter(InventoryItem.id == item_id).first()
+        item.lending_date = None
+        item.lender_id = None
+    s.commit()
 
 
 def update_person(value_dict: dict):

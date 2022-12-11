@@ -6,7 +6,8 @@ from PySide6.QtGui import QPainter
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QPushButton, QComboBox, QSpinBox, QPlainTextEdit, QCheckBox, \
     QLineEdit, QDialogButtonBox, QLabel, QStyleOptionViewItem, QStyleOptionButton, QTableView, QMessageBox, QToolButton
 
-from logic.database import persist_item, find_by_id, update_inventory, delete_item, configure_query_model
+from logic.database import persist_item, find_by_id, update_inventory, delete_item, configure_query_model, \
+    check_and_return
 from logic.model import InventoryItem, Person
 from logic.queries import person_fullname_query
 from logic.table_models import InventoryModel
@@ -100,7 +101,6 @@ class InventoryEditorWidget(EditorWidget):
 
         query: str = person_fullname_query()
         configure_query_model(self.lender_combobox, query)
-        self.return_button.clicked.connect(self.return_item)
 
         configure_next_mot(self.month_combobox, self.year_spinner)
         configure_month_box(self.month_combobox)
@@ -160,9 +160,6 @@ class InventoryEditorWidget(EditorWidget):
         self.year = self.year_spinner.value()
         self.month = self.month_combobox.currentIndex() + 1
 
-    def return_item(self):
-        self.lender_combobox.setCurrentIndex(-1)
-
     def update_lender_id(self):
         index = self.lender_combobox.currentIndex()
         selected_id = self.lender_combobox.model().index(index, 1).data()
@@ -195,6 +192,17 @@ class InventoryWidget(TableDialog):
     def configure_search(self):
         self.searchLine.textChanged.connect(
             lambda x: self.reload_table_contents(InventoryModel(self.searchLine.text())))
+
+    def configure_widgets(self):
+        super().configure_widgets()
+        self.editor.return_button.clicked.connect(self.return_item)
+
+    def return_item(self):
+        self.editor.lender_combobox.setCurrentIndex(-1)
+        item_id = super().get_selected_item()
+        check_and_return(item_id)
+        search = self.searchLine.text()
+        self.reload_table_contents(model=InventoryModel(search))
 
     def delete_item(self):
         dialog = ConfirmDeletionDialog(self)
