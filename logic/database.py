@@ -123,8 +123,6 @@ def update_inventory(value_dict: dict):
     item.lender_id = lender_id
     if lender_id:
         check_and_lend(s, lender_id, item)
-    # else:
-    #     check_and_return(s, item)
     s.commit()
 
 
@@ -139,6 +137,7 @@ def check_and_lend(s: Session, lender_id: int, item: InventoryItem):
         history_record = LendingHistory(lending_date=today, item_id=item.id, lender_id=lender_id)
         s.add(history_record)
         item.lending_date = today
+        item.available = False
 
 
 def check_and_return(item_id: int):
@@ -152,6 +151,7 @@ def check_and_return(item_id: int):
         item = s.query(InventoryItem).filter(InventoryItem.id == item_id).first()
         item.lending_date = None
         item.lender_id = None
+        item.available = True
     s.commit()
 
 
