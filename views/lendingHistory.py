@@ -14,6 +14,10 @@ class LendingHistoryWidget(TableDialog):
         super(LendingHistoryWidget, self).__init__(has_editor=False)
         self.setup_table(LendingHistoryModel(), range(1, 5))
 
+        self.table_widget.addButton.deleteLater()
+        self.table_widget.deleteButton.deleteLater()
+
+
         tableview: QTableView = self.get_table()
         delegate: LendingHistoryItemDelegate = LendingHistoryItemDelegate()
         tableview.setItemDelegate(delegate)
