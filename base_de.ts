@@ -57,12 +57,12 @@
 <context>
     <name>EditorDialog</name>
     <message>
-        <location filename="views/base_classes.py" line="35"/>
+        <location filename="views/base_classes.py" line="36"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="views/base_classes.py" line="36"/>
+        <location filename="views/base_classes.py" line="37"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -70,12 +70,12 @@
 <context>
     <name>EditorWidget</name>
     <message>
-        <location filename="views/base_classes.py" line="69"/>
+        <location filename="views/base_classes.py" line="70"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="views/base_classes.py" line="70"/>
+        <location filename="views/base_classes.py" line="71"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -169,16 +169,44 @@
     </message>
 </context>
 <context>
+    <name>LendingHistoryModel</name>
+    <message>
+        <location filename="logic/table_models.py" line="44"/>
+        <source>Device</source>
+        <translation>Gerät</translation>
+    </message>
+    <message>
+        <location filename="logic/table_models.py" line="45"/>
+        <source>Lent to</source>
+        <translation>Ausgeliehen an</translation>
+    </message>
+    <message>
+        <location filename="logic/table_models.py" line="46"/>
+        <source>Lending Date</source>
+        <translation>Leihdatum</translation>
+    </message>
+    <message>
+        <location filename="logic/table_models.py" line="47"/>
+        <source>Return Date</source>
+        <translation>Rückgabedatum</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
-        <location filename="views/mainView.py" line="49"/>
+        <location filename="views/mainView.py" line="50"/>
         <source>Persons</source>
         <translation>Personen</translation>
     </message>
     <message>
-        <location filename="views/mainView.py" line="53"/>
+        <location filename="views/mainView.py" line="54"/>
         <source>Inventory</source>
         <translation>Inventar</translation>
+    </message>
+    <message>
+        <location filename="views/mainView.py" line="58"/>
+        <source>Lending History</source>
+        <translation>Leihhistorie</translation>
     </message>
 </context>
 <context>

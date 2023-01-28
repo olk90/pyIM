@@ -50,6 +50,7 @@ def lending_history_query(search: str) -> str:
     query = """
         select 
             l.id,
+            i.name,
             p.firstname || ' ' || p.lastname,
             l.lending_date,
             l.return_date
@@ -60,5 +61,6 @@ def lending_history_query(search: str) -> str:
             i.name like '%{search}%'
             or p.firstname like '%{search}%'
             or p.lastname like '%{search}%'
+        order by p.lastname, p.firstname, l.lending_date, l.return_date
     """.format(search=search)
     return query

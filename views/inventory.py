@@ -11,7 +11,7 @@ from logic.database import persist_item, find_by_id, update_inventory, delete_it
 from logic.model import InventoryItem, Person
 from logic.queries import person_fullname_query
 from logic.table_models import InventoryModel, SearchTableModel
-from views.base_classes import TableDialog, EditorDialog, EditorWidget, CenteredItemDelegate
+from views.base_classes import TableDialog, EditorDialog, EditorWidget, DateItemDelegate
 from views.base_functions import configure_month_box, configure_year_box, get_day_range, get_date
 from views.confirmationDialogs import ConfirmDeletionDialog
 from views.helpers import configure_next_mot, calculate_background
@@ -246,7 +246,7 @@ class InventoryWidget(TableDialog):
         self.editor.reload_lender_box()
 
 
-class InventoryItemDelegate(CenteredItemDelegate):
+class InventoryItemDelegate(DateItemDelegate):
 
     def __init__(self):
         super(InventoryItemDelegate, self).__init__()
@@ -257,9 +257,12 @@ class InventoryItemDelegate(CenteredItemDelegate):
         # available
         if index.column() == 3:
             self.format_checkbox(index, option, painter)
-        # lending date/MOT date
-        elif index.column() in [4, 6]:
-            self.format_dates(index, option, painter)
+        # lending date
+        elif index.column() == 4:
+            self.format_ymd(index, option, painter)
+        # MOT date
+        elif index.column() == 6:
+            self.formal_ym(index, option, painter)
         else:
             super(InventoryItemDelegate, self).paint(painter, option, index)
 
@@ -282,17 +285,3 @@ class InventoryItemDelegate(CenteredItemDelegate):
             value = Qt.Unchecked
         self.drawCheck(painter, option, option.rect, value)
         self.drawFocus(painter, option, option.rect)
-
-    def format_dates(self, index, option, painter):
-        model = index.model()
-        date_str: str = model.index(index.row(), index.column()).data()
-        text: str = ""
-        if date_str:
-            if index.column() == 4:
-                l_date = datetime.strptime(date_str, '%Y-%m-%d')
-                text = l_date.strftime("%a, %d %b %Y")
-            else:
-                mot_date = datetime.strptime(date_str, '%Y-%m-%d')
-                text = mot_date.strftime("%b/%Y")
-        option.displayAlignment = Qt.AlignCenter
-        self.drawDisplay(painter, option, option.rect, text)

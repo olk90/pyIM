@@ -1,5 +1,6 @@
 import os
 import sys
+from datetime import datetime
 from typing import Union
 
 import qdarktheme
@@ -155,7 +156,7 @@ class OptionsEditorDialog(EditorDialog):
 
 class TableDialog(QWidget):
 
-    def __init__(self, configure_widgets: bool = True):
+    def __init__(self, has_editor=True, configure_widgets: bool = True):
         super(TableDialog, self).__init__()
         loader = QUiLoader()
 
@@ -164,14 +165,19 @@ class TableDialog(QWidget):
         table_file.close()
         self.searchLine: QLineEdit = self.table_widget.searchLine
 
-        self.editor: EditorWidget = self.get_editor_widget()
-
-        # set this field in subclass!
-        self.add_dialog: EditorDialog
+        self.has_editor = has_editor
+        if has_editor:
+            self.editor: EditorWidget = self.get_editor_widget()
+            # set this field in subclass!
+            self.add_dialog: EditorDialog
 
         self.layout = QHBoxLayout(self)
-        self.layout.addWidget(self.table_widget, stretch=2)
-        self.layout.addWidget(self.editor, stretch=1)
+
+        if has_editor:
+            self.layout.addWidget(self.table_widget, stretch=2)
+            self.layout.addWidget(self.editor, stretch=1)
+        else:
+            self.layout.addWidget(self.table_widget)
 
         if configure_widgets:
             # widgets might be configured in a subclass afterwards
@@ -198,19 +204,21 @@ class TableDialog(QWidget):
     def reload_table_contents(self, model: SearchTableModel):
         tableview: QTableView = self.get_table()
         tableview.setModel(model)
-        tableview.selectionModel().selectionChanged.connect(self.reload_editor)
+        if self.has_editor:
+            tableview.selectionModel().selectionChanged.connect(self.reload_editor)
 
     def reload_editor(self):
         item = self.get_selected_item()
-        if item:
+        if item and self.has_editor:
             self.editor.fill_fields(item)
             self.editor.toggle_buttons(True)
 
     def configure_widgets(self):
         self.table_widget.addButton.clicked.connect(self.add_item)
         self.table_widget.deleteButton.clicked.connect(self.delete_item)
-        self.editor.buttonBox.accepted.connect(self.commit_changes)
-        self.editor.buttonBox.rejected.connect(self.revert_changes)
+        if self.has_editor:
+            self.editor.buttonBox.accepted.connect(self.commit_changes)
+            self.editor.buttonBox.rejected.connect(self.revert_changes)
 
     def get_selected_item(self):
         tableview: QTableView = self.get_table()
@@ -251,3 +259,28 @@ class CenteredItemDelegate(QItemDelegate):
     def paint(self, painter: QPainter, option: QStyleOptionViewItem, index: Union[QModelIndex, QPersistentModelIndex]):
         option.displayAlignment = Qt.AlignCenter
         super(CenteredItemDelegate, self).paint(painter, option, index)
+
+
+class DateItemDelegate(CenteredItemDelegate):
+
+    # year - month -day
+    def format_ymd(self, index, option, painter):
+        model = index.model()
+        date_str: str = model.index(index.row(), index.column()).data()
+        text: str = ""
+        if date_str:
+            ymd_date = datetime.strptime(date_str, '%Y-%m-%d')
+            text = ymd_date.strftime("%a, %d %b %Y")
+        option.displayAlignment = Qt.AlignCenter
+        self.drawDisplay(painter, option, option.rect, text)
+
+    # year - month
+    def formal_ym(self, index, option, painter):
+        model = index.model()
+        date_str: str = model.index(index.row(), index.column()).data()
+        text: str = ""
+        if date_str:
+            ym_date = datetime.strptime(date_str, '%Y-%m-%d')
+            text = ym_date.strftime("%b/%Y")
+        option.displayAlignment = Qt.AlignCenter
+        self.drawDisplay(painter, option, option.rect, text)

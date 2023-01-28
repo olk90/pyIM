@@ -6,12 +6,14 @@ from PySide6.QtWidgets import QDialog, QHBoxLayout
 from logic.database import load_persons, load_inventory
 from views.helpers import load_ui_file
 from views.inventory import InventoryWidget
+from views.lendingHistory import LendingHistoryWidget
 from views.person import PersonWidget
 
 
 class AccessHistoryDialog(QDialog):
 
-    def __init__(self, person_widget: PersonWidget = None, inventory_widget: InventoryWidget = None):
+    def __init__(self, person_widget: PersonWidget = None, inventory_widget: InventoryWidget = None,
+                 lh_widget: LendingHistoryWidget = None):
         super().__init__()
         self.setModal(True)
         self.setMinimumWidth(450)
@@ -25,6 +27,7 @@ class AccessHistoryDialog(QDialog):
 
         self.person_widget = person_widget
         self.inventory_widget = inventory_widget
+        self.lh_widget = lh_widget
 
         self.view = self.widget.accessHistoryView
         # for record in access_records:

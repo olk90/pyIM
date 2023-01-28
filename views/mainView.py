@@ -2,11 +2,12 @@ from PySide6.QtGui import QIcon
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget
 
-from logic.table_models import PersonModel, InventoryModel
+from logic.table_models import PersonModel, InventoryModel, LendingHistoryModel
 from views.base_classes import OptionsEditorDialog, TableDialog
 from views.dataContainerDialogs import AccessHistoryDialog
 from views.helpers import load_ui_file
 from views.inventory import InventoryWidget
+from views.lendingHistory import LendingHistoryWidget
 from views.person import PersonWidget
 
 
@@ -52,6 +53,10 @@ class MainWindow(QMainWindow):
         self.accessHistoryDialog.inventory_widget = inventory_widget
         tabview.addTab(inventory_widget, self.tr("Inventory"))
 
+        lh_widget = LendingHistoryWidget()
+        self.accessHistoryDialog.lh_widget = lh_widget
+        tabview.addTab(lh_widget, self.tr("Lending History"))
+
         self.tabview.currentChanged.connect(self.reload_current_widget)
 
     def reload_current_widget(self):
@@ -62,6 +67,8 @@ class MainWindow(QMainWindow):
                 current.reload_table_contents(PersonModel(search))
             if isinstance(current, InventoryWidget):
                 current.reload_table_contents(InventoryModel(search))
+            if isinstance(current, LendingHistoryWidget):
+                current.reload_table_contents(LendingHistoryModel(search))
 
     def configure_buttons(self):
         self.widget.loadDbButton.clicked.connect(self.load_access_history)
