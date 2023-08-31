@@ -1,9 +1,9 @@
-from PySide6.QtWidgets import QHBoxLayout, QWidget, QMessageBox, QDialogButtonBox, QLabel, QLineEdit
+from PySide6.QtWidgets import QHBoxLayout, QWidget, QMessageBox, QDialogButtonBox, QLabel, QLineEdit, QTableView
 
 from logic.database import persist_item, delete_item, find_by_id, update_person
 from logic.model import Person
 from logic.table_models import PersonModel
-from views.base_classes import TableDialog, EditorDialog, EditorWidget
+from views.base_classes import TableDialog, EditorDialog, EditorWidget, CenteredItemDelegate
 from views.confirmationDialogs import ConfirmDeletionDialog
 
 
@@ -82,6 +82,10 @@ class PersonWidget(TableDialog):
         super(PersonWidget, self).__init__()
         self.add_dialog = AddPersonDialog(self)
         self.setup_table(PersonModel(), range(1, 4))
+
+        tableview: QTableView = self.get_table()
+        delegate = CenteredItemDelegate()
+        tableview.setItemDelegate(delegate)
 
     def get_editor_widget(self) -> EditorWidget:
         return PersonEditorWidget()
