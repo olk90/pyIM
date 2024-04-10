@@ -4,7 +4,7 @@
 <context>
     <name>AddInventoryDialog</name>
     <message>
-        <location filename="views/inventory.py" line="24"/>
+        <location filename="../views/inventory.py" line="24"/>
         <source>Add Device</source>
         <translation>Gerät hinzufügen</translation>
     </message>
@@ -12,7 +12,7 @@
 <context>
     <name>AddPersonDialog</name>
     <message>
-        <location filename="views/person.py" line="15"/>
+        <location filename="../views/person.py" line="15"/>
         <source>Add Person</source>
         <translation>Person hinzufügen</translation>
     </message>
@@ -20,7 +20,7 @@
 <context>
     <name>ConfirmDeletionDialog</name>
     <message>
-        <location filename="views/confirmationDialogs.py" line="35"/>
+        <location filename="../views/confirmationDialogs.py" line="35"/>
         <source>Delete selected item?</source>
         <translation>Ausgewählten Eintrag löschen?</translation>
     </message>
@@ -28,7 +28,7 @@
 <context>
     <name>ConfirmRestartDialog</name>
     <message>
-        <location filename="views/confirmationDialogs.py" line="21"/>
+        <location filename="../views/confirmationDialogs.py" line="21"/>
         <source>Changes applied require a restart. Restart now?</source>
         <translation>Vorgenommene Änderungen erfordern einen Neustart. Jetzt neustarten?</translation>
     </message>
@@ -36,7 +36,7 @@
 <context>
     <name>ConfirmScheduleUpdateDialog</name>
     <message>
-        <location filename="views/confirmationDialogs.py" line="28"/>
+        <location filename="../views/confirmationDialogs.py" line="28"/>
         <source>Write changes to database?</source>
         <translation>Änderungen in die Datenbank schreiben?</translation>
     </message>
@@ -44,12 +44,12 @@
 <context>
     <name>ConfirmationDialog</name>
     <message>
-        <location filename="views/confirmationDialogs.py" line="11"/>
+        <location filename="../views/confirmationDialogs.py" line="11"/>
         <source>Yes</source>
         <translation>Ja</translation>
     </message>
     <message>
-        <location filename="views/confirmationDialogs.py" line="12"/>
+        <location filename="../views/confirmationDialogs.py" line="12"/>
         <source>No</source>
         <translation>Nein</translation>
     </message>
@@ -57,12 +57,12 @@
 <context>
     <name>EditorDialog</name>
     <message>
-        <location filename="views/base_classes.py" line="36"/>
+        <location filename="../views/base_classes.py" line="36"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="views/base_classes.py" line="37"/>
+        <location filename="../views/base_classes.py" line="37"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -70,12 +70,12 @@
 <context>
     <name>EditorWidget</name>
     <message>
-        <location filename="views/base_classes.py" line="70"/>
+        <location filename="../views/base_classes.py" line="70"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="views/base_classes.py" line="71"/>
+        <location filename="../views/base_classes.py" line="71"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -83,54 +83,54 @@
 <context>
     <name>Form</name>
     <message>
-        <location filename="ui/accessHistory.ui" line="14"/>
-        <location filename="ui/optionsEditor.ui" line="14"/>
-        <location filename="ui/personEditor.ui" line="14"/>
+        <location filename="../ui/accessHistory.ui" line="14"/>
+        <location filename="../ui/optionsEditor.ui" line="14"/>
+        <location filename="../ui/personEditor.ui" line="14"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
-        <location filename="ui/accessHistory.ui" line="51"/>
+        <location filename="../ui/accessHistory.ui" line="51"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="ui/accessHistory.ui" line="58"/>
+        <location filename="../ui/accessHistory.ui" line="58"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="ui/optionsEditor.ui" line="29"/>
+        <location filename="../ui/optionsEditor.ui" line="29"/>
         <source>Options</source>
         <translation>Optionen</translation>
     </message>
     <message>
-        <location filename="ui/optionsEditor.ui" line="38"/>
+        <location filename="../ui/optionsEditor.ui" line="38"/>
         <source>Locale</source>
         <translation>Sprache</translation>
     </message>
     <message>
-        <location filename="ui/optionsEditor.ui" line="48"/>
+        <location filename="../ui/optionsEditor.ui" line="48"/>
         <source>Theme</source>
         <translation>Theme</translation>
     </message>
     <message>
-        <location filename="ui/personEditor.ui" line="32"/>
+        <location filename="../ui/personEditor.ui" line="32"/>
         <source>Edit Person</source>
         <translation>Person editieren</translation>
     </message>
     <message>
-        <location filename="ui/personEditor.ui" line="41"/>
+        <location filename="../ui/personEditor.ui" line="41"/>
         <source>First Name</source>
         <translation>Vorname</translation>
     </message>
     <message>
-        <location filename="ui/personEditor.ui" line="51"/>
+        <location filename="../ui/personEditor.ui" line="51"/>
         <source>Last Name</source>
         <translation>Nachname</translation>
     </message>
     <message>
-        <location filename="ui/personEditor.ui" line="61"/>
+        <location filename="../ui/personEditor.ui" line="61"/>
         <source>E-Mail</source>
         <translation>E-Mail</translation>
     </message>
@@ -138,32 +138,32 @@
 <context>
     <name>InventoryModel</name>
     <message>
-        <location filename="logic/table_models.py" line="30"/>
+        <location filename="../logic/table_models.py" line="30"/>
         <source>Category</source>
         <translation>Kategorie</translation>
     </message>
     <message>
-        <location filename="logic/table_models.py" line="31"/>
+        <location filename="../logic/table_models.py" line="31"/>
         <source>Device</source>
         <translation>Gerät</translation>
     </message>
     <message>
-        <location filename="logic/table_models.py" line="32"/>
+        <location filename="../logic/table_models.py" line="32"/>
         <source>Available</source>
         <translation>Verfügbar</translation>
     </message>
     <message>
-        <location filename="logic/table_models.py" line="33"/>
+        <location filename="../logic/table_models.py" line="33"/>
         <source>Lending Date</source>
         <translation>Leihdatum</translation>
     </message>
     <message>
-        <location filename="logic/table_models.py" line="34"/>
+        <location filename="../logic/table_models.py" line="34"/>
         <source>Lend to</source>
         <translation>Ausgeliehen an</translation>
     </message>
     <message>
-        <location filename="logic/table_models.py" line="35"/>
+        <location filename="../logic/table_models.py" line="35"/>
         <source>Next MOT</source>
         <translation>Nächster TÜV</translation>
     </message>
@@ -171,22 +171,22 @@
 <context>
     <name>LendingHistoryModel</name>
     <message>
-        <location filename="logic/table_models.py" line="44"/>
+        <location filename="../logic/table_models.py" line="44"/>
         <source>Device</source>
         <translation>Gerät</translation>
     </message>
     <message>
-        <location filename="logic/table_models.py" line="45"/>
+        <location filename="../logic/table_models.py" line="45"/>
         <source>Lent to</source>
         <translation>Ausgeliehen an</translation>
     </message>
     <message>
-        <location filename="logic/table_models.py" line="46"/>
+        <location filename="../logic/table_models.py" line="46"/>
         <source>Lending Date</source>
         <translation>Leihdatum</translation>
     </message>
     <message>
-        <location filename="logic/table_models.py" line="47"/>
+        <location filename="../logic/table_models.py" line="47"/>
         <source>Return Date</source>
         <translation>Rückgabedatum</translation>
     </message>
@@ -194,17 +194,17 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="views/mainView.py" line="50"/>
+        <location filename="../views/mainView.py" line="50"/>
         <source>Persons</source>
         <translation>Personen</translation>
     </message>
     <message>
-        <location filename="views/mainView.py" line="54"/>
+        <location filename="../views/mainView.py" line="54"/>
         <source>Inventory</source>
         <translation>Inventar</translation>
     </message>
     <message>
-        <location filename="views/mainView.py" line="58"/>
+        <location filename="../views/mainView.py" line="58"/>
         <source>Lending History</source>
         <translation>Leihhistorie</translation>
     </message>
@@ -212,62 +212,62 @@
 <context>
     <name>MonthList</name>
     <message>
-        <location filename="views/lists.py" line="8"/>
+        <location filename="../views/lists.py" line="8"/>
         <source>January</source>
         <translation>Januar</translation>
     </message>
     <message>
-        <location filename="views/lists.py" line="9"/>
+        <location filename="../views/lists.py" line="9"/>
         <source>February</source>
         <translation>Februar</translation>
     </message>
     <message>
-        <location filename="views/lists.py" line="10"/>
+        <location filename="../views/lists.py" line="10"/>
         <source>March</source>
         <translation>März</translation>
     </message>
     <message>
-        <location filename="views/lists.py" line="11"/>
+        <location filename="../views/lists.py" line="11"/>
         <source>April</source>
         <translation>April</translation>
     </message>
     <message>
-        <location filename="views/lists.py" line="12"/>
+        <location filename="../views/lists.py" line="12"/>
         <source>May</source>
         <translation>Mai</translation>
     </message>
     <message>
-        <location filename="views/lists.py" line="13"/>
+        <location filename="../views/lists.py" line="13"/>
         <source>June</source>
         <translation>Juni</translation>
     </message>
     <message>
-        <location filename="views/lists.py" line="14"/>
+        <location filename="../views/lists.py" line="14"/>
         <source>July</source>
         <translation>Juli</translation>
     </message>
     <message>
-        <location filename="views/lists.py" line="15"/>
+        <location filename="../views/lists.py" line="15"/>
         <source>August</source>
         <translation>August</translation>
     </message>
     <message>
-        <location filename="views/lists.py" line="16"/>
+        <location filename="../views/lists.py" line="16"/>
         <source>September</source>
         <translation>September</translation>
     </message>
     <message>
-        <location filename="views/lists.py" line="17"/>
+        <location filename="../views/lists.py" line="17"/>
         <source>October</source>
         <translation>Oktober</translation>
     </message>
     <message>
-        <location filename="views/lists.py" line="18"/>
+        <location filename="../views/lists.py" line="18"/>
         <source>November</source>
         <translation>November</translation>
     </message>
     <message>
-        <location filename="views/lists.py" line="21"/>
+        <location filename="../views/lists.py" line="21"/>
         <source>December</source>
         <translation>Dezember</translation>
     </message>
@@ -275,17 +275,17 @@
 <context>
     <name>PersonModel</name>
     <message>
-        <location filename="logic/table_models.py" line="19"/>
+        <location filename="../logic/table_models.py" line="19"/>
         <source>First Name</source>
         <translation>Vorname</translation>
     </message>
     <message>
-        <location filename="logic/table_models.py" line="20"/>
+        <location filename="../logic/table_models.py" line="20"/>
         <source>Last Name</source>
         <translation>Nachname</translation>
     </message>
     <message>
-        <location filename="logic/table_models.py" line="21"/>
+        <location filename="../logic/table_models.py" line="21"/>
         <source>E-Mail</source>
         <translation>E-Mail</translation>
     </message>
@@ -293,12 +293,12 @@
 <context>
     <name>Properties</name>
     <message>
-        <location filename="logic/config.py" line="21"/>
+        <location filename="../logic/config.py" line="21"/>
         <source>dark</source>
         <translation>dunkel</translation>
     </message>
     <message>
-        <location filename="logic/config.py" line="22"/>
+        <location filename="../logic/config.py" line="22"/>
         <source>light</source>
         <translation>hell</translation>
     </message>
@@ -306,43 +306,43 @@
 <context>
     <name>inventoryEditorForm</name>
     <message>
-        <location filename="ui/inventoryEditor.ui" line="14"/>
+        <location filename="../ui/inventoryEditor.ui" line="14"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
-        <location filename="ui/inventoryEditor.ui" line="29"/>
+        <location filename="../ui/inventoryEditor.ui" line="29"/>
         <source>Edit Device</source>
         <translation>Gerät  editieren</translation>
     </message>
     <message>
-        <location filename="ui/inventoryEditor.ui" line="38"/>
+        <location filename="../ui/inventoryEditor.ui" line="38"/>
         <source>Device</source>
         <translation>Gerät</translation>
     </message>
     <message>
-        <location filename="ui/inventoryEditor.ui" line="58"/>
+        <location filename="../ui/inventoryEditor.ui" line="58"/>
         <source>Available</source>
         <translation>Verfügbar</translation>
     </message>
     <message>
-        <location filename="ui/inventoryEditor.ui" line="113"/>
+        <location filename="../ui/inventoryEditor.ui" line="113"/>
         <source>Lent to</source>
         <oldsource>Lend to</oldsource>
         <translation>Ausgeliehen an</translation>
     </message>
     <message>
-        <location filename="ui/inventoryEditor.ui" line="131"/>
+        <location filename="../ui/inventoryEditor.ui" line="131"/>
         <source>Return</source>
         <translation>Rückgabe</translation>
     </message>
     <message>
-        <location filename="ui/inventoryEditor.ui" line="48"/>
+        <location filename="../ui/inventoryEditor.ui" line="48"/>
         <source>Category</source>
         <translation>Kategorie</translation>
     </message>
     <message>
-        <location filename="ui/inventoryEditor.ui" line="103"/>
+        <location filename="../ui/inventoryEditor.ui" line="103"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
@@ -395,7 +395,7 @@
         <translation type="vanished">Dez</translation>
     </message>
     <message>
-        <location filename="ui/inventoryEditor.ui" line="72"/>
+        <location filename="../ui/inventoryEditor.ui" line="72"/>
         <source>Next MOT</source>
         <translation>Nächster TÜV</translation>
     </message>
@@ -430,22 +430,22 @@
 <context>
     <name>mainDialog</name>
     <message>
-        <location filename="ui/main.ui" line="20"/>
+        <location filename="../ui/main.ui" line="20"/>
         <source>Inventory Manager</source>
         <translation>Inventory Manager</translation>
     </message>
     <message>
-        <location filename="ui/main.ui" line="48"/>
+        <location filename="../ui/main.ui" line="48"/>
         <source>New Database ...</source>
         <translation>Neue Datenbank ...</translation>
     </message>
     <message>
-        <location filename="ui/main.ui" line="61"/>
+        <location filename="../ui/main.ui" line="61"/>
         <source>Load Database ...</source>
         <translation>Datenbank laden ...</translation>
     </message>
     <message>
-        <location filename="ui/main.ui" line="74"/>
+        <location filename="../ui/main.ui" line="74"/>
         <source>Options</source>
         <translation>Optionen</translation>
     </message>
@@ -453,22 +453,22 @@
 <context>
     <name>personView</name>
     <message>
-        <location filename="ui/tableView.ui" line="20"/>
+        <location filename="../ui/tableView.ui" line="20"/>
         <source>Form</source>
         <translation>Formular</translation>
     </message>
     <message>
-        <location filename="ui/tableView.ui" line="28"/>
+        <location filename="../ui/tableView.ui" line="28"/>
         <source>Search ...</source>
         <translation>Suche ...</translation>
     </message>
     <message>
-        <location filename="ui/tableView.ui" line="43"/>
+        <location filename="../ui/tableView.ui" line="43"/>
         <source>Add</source>
         <translation>Hinzufügen</translation>
     </message>
     <message>
-        <location filename="ui/tableView.ui" line="56"/>
+        <location filename="../ui/tableView.ui" line="56"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
