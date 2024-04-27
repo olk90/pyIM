@@ -6,12 +6,14 @@ from typing import Union
 import qdarktheme
 from PySide6.QtCore import QItemSelectionModel, QModelIndex, \
     QPersistentModelIndex, Qt
-from PySide6.QtGui import QPainter
+from PySide6.QtGui import QPainter, QIcon
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QDialog, QWidget, QDialogButtonBox, QHBoxLayout, QMainWindow, QComboBox, QApplication, \
-    QLineEdit, QTableView, QAbstractItemView, QHeaderView, QItemDelegate, QStyleOptionViewItem, QMessageBox
+    QLineEdit, QTableView, QAbstractItemView, QHeaderView, QItemDelegate, QStyleOptionViewItem, QMessageBox, QSpinBox, \
+    QToolButton, QPushButton, QStyle
 
 from logic.config import properties
+from logic.crypt import decrypt_persons, encrypt_persons, generate_key
 from logic.table_models import SearchTableModel
 from views.base_functions import load_ui_file
 from views.confirmationDialogs import ConfirmRestartDialog
@@ -34,7 +36,9 @@ class EditorDialog(QDialog):
         self.button_box.accepted.connect(self.commit)
         self.button_box.rejected.connect(self.close)
         self.button_box.button(QDialogButtonBox.Ok).setText(self.tr("OK"))
+        self.button_box.button(QDialogButtonBox.Ok).setFixedSize(150, 36)
         self.button_box.button(QDialogButtonBox.Cancel).setText(self.tr("Cancel"))
+        self.button_box.button(QDialogButtonBox.Cancel).setFixedSize(150, 36)
 
     def commit(self):
         """Must be implemented by subclass"""

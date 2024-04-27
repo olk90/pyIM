@@ -1,13 +1,34 @@
+from PySide6.QtCore import QAbstractTableModel, QModelIndex
 from PySide6.QtGui import Qt
-from PySide6.QtSql import QSqlQueryModel
 
-from logic.queries import person_query, inventory_query, lending_history_query
+from logic.config import properties
+from logic.crypt import decrypt_string
+from logic.database import find_all_off
+from logic.model import Person
 
 
-class SearchTableModel(QSqlQueryModel):
-    def __init__(self, search: str = ""):
+class SearchTableModel(QAbstractTableModel):
+    def __init__(self, col_count, search: str = "", items=None):
         super(SearchTableModel, self).__init__()
+        self.col_count = col_count
         self.search = search
+        if items is None:
+            items = []
+        self.items = items
+
+    def rowCount(self, parent=QModelIndex()):
+        return len(self.items)
+
+    def columnCount(self, parent=QModelIndex()):
+        return self.col_count
+
+    def data(self, index, role=Qt.DisplayRole):
+        """Must be implemented by subclass"""
+        pass
+
+    def headerData(self, section, orientation, role=Qt.DisplayRole):
+        """Must be implemented by subclass"""
+        pass
 
 
 class PersonModel(SearchTableModel):
