@@ -9,7 +9,7 @@ from PySide6.QtCore import QItemSelectionModel, QModelIndex, \
 from PySide6.QtGui import QPainter
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QDialog, QWidget, QDialogButtonBox, QHBoxLayout, QMainWindow, QComboBox, QApplication, \
-    QLineEdit, QTableView, QAbstractItemView, QHeaderView, QItemDelegate, QStyleOptionViewItem, QMessageBox, QSpinBox
+    QLineEdit, QTableView, QAbstractItemView, QHeaderView, QItemDelegate, QStyleOptionViewItem, QMessageBox
 
 from logic.config import properties
 from logic.table_models import SearchTableModel
