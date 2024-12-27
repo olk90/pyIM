@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 
 from logic import configure_file_handler
 from logic.config import properties
-from logic.model import create_tables, Person, InventoryItem, Base, LendingHistory
+from logic.model import create_tables, Person, InventoryItem, Base, LendingHistory, EncryptionState, VersionInfo
 
 db = ce("sqlite:///pyIM.db")
 
@@ -24,19 +24,22 @@ logger.addHandler(rfh)
 logger.info("Logger initialised")
 
 
-def init_database():
-    print("Connecting to database {}".format(db))
+def init_database(app_launch: bool = True):
+    if app_launch:
+        logger.info("Connecting to database {}".format(db))
+
     db.connect()
 
-    print("Initializing database")
-    create_tables(db)
+    if app_launch:
+        logger.info("Initializing database")
+        create_tables(db)
 
-    print("Connect database to PySide")
+        logger.info("Connect database to PySide")
     database = QSqlDatabase.addDatabase("QSQLITE")
     database.setDatabaseName("pyIM.db")
 
     if not database.open():
-        print("Unable to open database")
+        logger.info("Unable to open database")
         sys.exit(1)
 
 
@@ -168,4 +171,18 @@ def update_person(value_dict: dict):
     person.firstname = value_dict["firstname"]
     person.lastname = value_dict["lastname"]
     person.email = value_dict["email"]
+    s.commit()
+
+
+def update_version_info(version: int):
+    s = properties.open_session()
+    vi = s.query(VersionInfo).first()
+    vi.version = version
+    s.commit()
+
+
+def set_encryption_state(state: bool):
+    s = properties.open_session()
+    es = s.query(EncryptionState).first()
+    es.encryption_state = state
     s.commit()

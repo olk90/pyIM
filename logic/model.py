@@ -6,6 +6,8 @@ Base = declarative_base()
 personTableName = "Person"
 inventoryTableName = "InventoryItem"
 lendingHistoryTableName = "LendingHistory"
+versionInfoTableName = "VersionInfo"
+encryptionStateName = "EncryptionState"
 
 
 class DatabaseExport(object):
@@ -69,6 +71,20 @@ class LendingHistory(Base):
 
     item_id = Column(Integer, ForeignKey("InventoryItem.id"), nullable=False)
     item = relationship("InventoryItem", back_populates="lendings")
+
+
+class VersionInfo(Base):
+    __tablename__ = versionInfoTableName
+
+    id = Column(Integer, primary_key=True)
+    version = Column(Integer, nullable=False, default=0)
+
+
+class EncryptionState(Base):
+    __tablename__ = encryptionStateName
+
+    id = Column(Integer, primary_key=True)
+    encryption_state = Column(Boolean, nullable=False)
 
 
 def create_tables(engine):
