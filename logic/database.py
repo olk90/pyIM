@@ -47,7 +47,7 @@ def find_by_id(identifier: int, entities):
     return result
 
 
-def find_all_off(entities) -> list:
+def find_all_of(entities) -> list:
     s = properties.open_session()
     result: list = s.query(entities).all()
     s.close()

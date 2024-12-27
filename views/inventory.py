@@ -269,9 +269,9 @@ class InventoryItemDelegate(DateItemDelegate):
     @staticmethod
     def format_background(index, option, painter):
         model = index.model()
-        date_str: str = model.index(index.row(), 6).data()
+        date_str = model.index(index.row(), 6).data()
         if date_str:
-            mot_date = datetime.strptime(date_str, '%Y-%m-%d')
+            mot_date = date_str.strftime('%Y-%m-%d')
             calculate_background(mot_date, option, painter)
 
     def format_checkbox(self, index, option, painter):

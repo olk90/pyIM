@@ -3,7 +3,7 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget
 
 from logic.table_models import PersonModel, InventoryModel, LendingHistoryModel
-from views.base_classes import OptionsEditorDialog, TableDialog
+from views.base_classes import OptionsEditorDialog, TableDialog, EncryptEditorDialog
 from views.dataContainerDialogs import AccessHistoryDialog
 from views.helpers import load_ui_file
 from views.inventory import InventoryWidget

@@ -3,8 +3,8 @@ from PySide6.QtGui import Qt
 
 from logic.config import properties
 from logic.crypt import decrypt_string
-from logic.database import find_all_off
-from logic.model import Person
+from logic.database import find_all_of, find_by_id
+from logic.model import Person, InventoryItem, LendingHistory
 
 
 class SearchTableModel(QAbstractTableModel):
@@ -33,36 +33,82 @@ class SearchTableModel(QAbstractTableModel):
 
 class PersonModel(SearchTableModel):
     def __init__(self, search: str = ""):
-        super(PersonModel, self).__init__(search)
-        query = person_query(self.search)
-        self.setQuery(query)
-        self.setHeaderData(0, Qt.Horizontal, "ID")
-        self.setHeaderData(1, Qt.Horizontal, self.tr("First Name"))
-        self.setHeaderData(2, Qt.Horizontal, self.tr("Last Name"))
-        self.setHeaderData(3, Qt.Horizontal, self.tr("E-Mail"))
+        items = find_all_of(Person)
+        super(PersonModel, self).__init__(4, search, items)
+
+    def data(self, index, role=Qt.DisplayRole):
+        if role == Qt.DisplayRole:
+            person: Person = self.items[index.row()]
+            column = index.column()
+            key = properties.encryption_key
+            if column == 0:
+                return person.id
+            elif column == 1:
+                if key is not None:
+                    return decrypt_string(key, person.firstname)
+                else:
+                    return person.firstname
+            elif column == 2:
+                if key is not None:
+                    return decrypt_string(key, person.lastname)
+                else:
+                    return person.lastname
+            elif column == 3:
+                email = person.email
+                if key is not None and email is not None:
+                    return decrypt_string(key, email)
+                else:
+                    return email
+        return None
 
 
 class InventoryModel(SearchTableModel):
     def __init__(self, search: str = ""):
-        super(InventoryModel, self).__init__(search)
-        query = inventory_query(self.search)
-        self.setQuery(query)
-        self.setHeaderData(0, Qt.Horizontal, "ID")
-        self.setHeaderData(1, Qt.Horizontal, self.tr("Category"))
-        self.setHeaderData(2, Qt.Horizontal, self.tr("Device"))
-        self.setHeaderData(3, Qt.Horizontal, self.tr("Available"))
-        self.setHeaderData(4, Qt.Horizontal, self.tr("Lending Date"))
-        self.setHeaderData(5, Qt.Horizontal, self.tr("Lend to"))
-        self.setHeaderData(6, Qt.Horizontal, self.tr("Next MOT"))
+        items = find_all_of(InventoryItem)
+        super(InventoryModel, self).__init__(7, search, items)
+
+    def data(self, index, role=Qt.DisplayRole):
+        if role == Qt.DisplayRole:
+            item: InventoryItem = self.items[index.row()]
+            column = index.column()
+            key = properties.encryption_key
+            if column == 0:
+                return item.id
+            elif column == 1:
+                return item.category
+            elif column == 2:
+                return item.name
+            elif column == 3:
+                return item.available
+            elif column == 4:
+                return item.lending_date
+            elif column == 5:
+                lender: Person = find_by_id(item.lender_id, Person)
+                return lender.get_full_name()
+            elif column == 6:
+                return item.next_mot
+        return None
 
 
 class LendingHistoryModel(SearchTableModel):
-    def __init__(self, search: str =""):
-        super(LendingHistoryModel, self).__init__(search)
-        query = lending_history_query(search)
-        self.setQuery(query)
-        self.setHeaderData(0, Qt.Horizontal, "ID")
-        self.setHeaderData(1, Qt.Horizontal, self.tr("Device"))
-        self.setHeaderData(2, Qt.Horizontal, self.tr("Lent to"))
-        self.setHeaderData(3, Qt.Horizontal, self.tr("Lending Date"))
-        self.setHeaderData(4, Qt.Horizontal, self.tr("Return Date"))
+    def __init__(self, search: str = ""):
+        items = find_all_of(LendingHistory)
+        super(LendingHistoryModel, self).__init__(5, search, items)
+
+    def data(self, index, role=Qt.DisplayRole):
+
+        if role == Qt.DisplayRole:
+            item: LendingHistory = self.items[index.row()]
+            column = index.column()
+            key = properties.encryption_key
+            if column == 0:
+                return item.id
+            elif column == 1:
+                return item.item.name
+            elif column == 2:
+                return item.lender.get_full_name()
+            elif column == 3:
+                return item.lending_date
+            elif column == 4:
+                return item.return_date
+        return None
