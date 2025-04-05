@@ -61,6 +61,18 @@ class PersonModel(SearchTableModel):
                     return email
         return None
 
+    def headerData(self, section, orientation, role=Qt.DisplayRole):
+        if role == Qt.DisplayRole and orientation == Qt.Horizontal:
+            if section == 0:
+                return "ID"
+            elif section == 1:
+                return self.tr("First Name")
+            elif section == 2:
+                return self.tr("Last Name")
+            elif section == 3:
+                return self.tr("E-Mail")
+        return None
+
 
 class InventoryModel(SearchTableModel):
     def __init__(self, search: str = ""):
@@ -84,10 +96,30 @@ class InventoryModel(SearchTableModel):
                 return item.lending_date
             elif column == 5:
                 lender: Person = find_by_id(item.lender_id, Person)
-                return lender.get_full_name()
+                if lender:
+                    return lender.get_full_name()
             elif column == 6:
                 return item.next_mot
         return None
+
+    def headerData(self, section, orientation, role=Qt.DisplayRole):
+        if role == Qt.DisplayRole and orientation == Qt.Horizontal:
+            if section == 0:
+                return "ID"
+            elif section == 1:
+                return self.tr("Category")
+            elif section == 2:
+                return self.tr("Name")
+            elif section == 3:
+                return self.tr("Available")
+            elif section == 4:
+                return self.tr("Lending Date")
+            elif section == 5:
+                return self.tr("Lender")
+            elif section == 6:
+                return self.tr("Next Mot")
+        return None
+
 
 
 class LendingHistoryModel(SearchTableModel):
@@ -112,3 +144,17 @@ class LendingHistoryModel(SearchTableModel):
             elif column == 4:
                 return item.return_date
         return None
+
+    def headerData(self, section, orientation, role=Qt.DisplayRole):
+        if role == Qt.DisplayRole and orientation == Qt.Horizontal:
+            if section == 0:
+                return "ID"
+            elif section == 1:
+                return self.tr("Item Name")
+            elif section == 2:
+                return self.tr("Lender")
+            elif section == 3:
+                return self.tr("Lending Date")
+            elif section == 4:
+                return self.tr("Return Date")
+            return None

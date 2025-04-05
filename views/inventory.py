@@ -3,7 +3,7 @@ from typing import Union
 
 from PySide6.QtCore import QModelIndex, QPersistentModelIndex, Qt
 from PySide6.QtGui import QPainter
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QPushButton, QComboBox, QSpinBox, QPlainTextEdit, QCheckBox, \
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QComboBox, QSpinBox, QPlainTextEdit, QCheckBox, \
     QLineEdit, QDialogButtonBox, QLabel, QStyleOptionViewItem, QStyleOptionButton, QTableView, QMessageBox, QToolButton
 
 from logic.database import persist_item, find_by_id, update_inventory, delete_item, configure_query_model, \
@@ -31,7 +31,7 @@ class AddInventoryDialog(EditorDialog):
 
         self.widget.append_validation_fields(self.name_edit, self.category_edit)
 
-        self.next_mot_button: QPushButton = self.get_widget(QPushButton, "nextMotButton")
+        self.mot_checkbox: QCheckBox = self.get_widget(QCheckBox, "motCheckBox")
         self.month_combobox: QComboBox = self.get_widget(QComboBox, "monthCombo")
         self.year_spinner: QSpinBox = self.get_widget(QSpinBox, "yearSpinner")
 
@@ -60,7 +60,7 @@ class AddInventoryDialog(EditorDialog):
         available: bool = self.available_checkbox.isChecked()
         info: str = self.info_edit.toPlainText()
 
-        mot_required: bool = self.next_mot_button.isChecked()
+        mot_required: bool = self.mot_checkbox.isChecked()
         mot_date = None
         if mot_required:
             month: int = self.month_combobox.currentIndex() + 1
@@ -95,7 +95,7 @@ class InventoryEditorWidget(EditorWidget):
         self.append_validation_fields(self.name_edit, self.category_edit)
 
         self.available_checkbox: QCheckBox = self.widget.availableCheckbox
-        self.next_mot_button: QPushButton = self.widget.nextMotButton
+        self.mot_checkbox: QCheckBox = self.widget.motCheckBox
         self.month_combobox: QComboBox = self.widget.monthCombo
         self.year_spinner: QSpinBox = self.widget.yearSpinner
         self.info_edit: QPlainTextEdit = self.widget.infoEdit
@@ -129,7 +129,7 @@ class InventoryEditorWidget(EditorWidget):
         self.category_edit.setText(item.category)
         self.info_edit.setPlainText(item.info)
         self.available_checkbox.setChecked(item.available)
-        self.next_mot_button.setChecked(item.mot_required)
+        self.mot_checkbox.setChecked(item.mot_required)
 
         if item.mot_required:
             mot_date = item.next_mot
@@ -145,7 +145,7 @@ class InventoryEditorWidget(EditorWidget):
             self.lender_combobox.setCurrentIndex(-1)
 
     def get_values(self) -> dict:
-        mot_required: bool = self.next_mot_button.isChecked()
+        mot_required: bool = self.mot_checkbox.isChecked()
         return {
             "item_id": self.item_id,
             "name": self.name_edit.text(),
@@ -161,7 +161,8 @@ class InventoryEditorWidget(EditorWidget):
         enable: bool = super(InventoryEditorWidget, self).validate()
         if enable:
             item: InventoryItem = find_by_id(self.item_id, InventoryItem)
-            mot_expired: bool = date.today() >= item.next_mot
+            mot = item.next_mot
+            mot_expired: bool = date.today() >= mot if mot else False
             selected_index: int = self.lender_combobox.currentIndex()
             enable = (mot_expired and selected_index < 0) or not mot_expired
         self.toggle_buttons(enable)
@@ -180,7 +181,7 @@ class InventoryEditorWidget(EditorWidget):
         self.name_edit.setText("")
         self.category_edit.setText("")
         self.available_checkbox.setChecked(False)
-        self.next_mot_button.setChecked(False)
+        self.mot_checkbox.setChecked(False)
         self.info_edit.insertPlainText("")
         self.toggle_buttons(False, False)
         self.lender_combobox.setCurrentIndex(-1)
@@ -269,9 +270,8 @@ class InventoryItemDelegate(DateItemDelegate):
     @staticmethod
     def format_background(index, option, painter):
         model = index.model()
-        date_str = model.index(index.row(), 6).data()
-        if date_str:
-            mot_date = date_str.strftime('%Y-%m-%d')
+        mot_date = model.index(index.row(), 6).data()
+        if mot_date:
             calculate_background(mot_date, option, painter)
 
     def format_checkbox(self, index, option, painter):
