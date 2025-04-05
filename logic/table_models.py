@@ -5,6 +5,7 @@ from logic.config import properties
 from logic.crypt import decrypt_string
 from logic.database import find_all_of, find_by_id
 from logic.model import Person, InventoryItem, LendingHistory
+from views.helpers import filter_by_search
 
 
 class SearchTableModel(QAbstractTableModel):
@@ -112,6 +113,15 @@ class InventoryModel(SearchTableModel):
         items = find_all_of(InventoryItem)
         super(InventoryModel, self).__init__(7, search, items)
 
+    def filter_items(self):
+        """Filter inventory items based on the search string."""
+        return filter_by_search(
+            all_items=self.all_items,
+            search=self.search,
+            key=properties.encryption_key,
+            fields=("category", "name", "lender")
+        )
+
     def data(self, index, role=Qt.DisplayRole):
         if role == Qt.DisplayRole:
             item: InventoryItem = self.items[index.row()]
@@ -159,6 +169,15 @@ class LendingHistoryModel(SearchTableModel):
     def __init__(self, search: str = ""):
         items = find_all_of(LendingHistory)
         super(LendingHistoryModel, self).__init__(5, search, items)
+
+    def filter_items(self):
+        """Filter lending history based on the search string."""
+        return filter_by_search(
+            all_items=self.all_items,
+            search=self.search,
+            key=properties.encryption_key,
+            fields=("item_name", "lender_name")  # Specify item name and lender name fields
+        )
 
     def data(self, index, role=Qt.DisplayRole):
 

@@ -40,6 +40,9 @@ class Person(Base):
     def get_full_name(self):
         return "{} {}".format(self.firstname, self.lastname)
 
+    def lower(self):
+        return self.get_full_name().lower()
+
 
 class InventoryItem(Base):
     __tablename__ = inventoryTableName
@@ -56,7 +59,7 @@ class InventoryItem(Base):
     lendings = relationship(lendingHistoryTableName, back_populates="item")
 
     lender_id = Column(Integer, ForeignKey("Person.id"))
-    lender = relationship(personTableName, back_populates="items")
+    lender = relationship(personTableName, back_populates="items", lazy="joined")
 
 
 class LendingHistory(Base):
@@ -67,10 +70,10 @@ class LendingHistory(Base):
     return_date = Column(Date)
 
     lender_id = Column(Integer, ForeignKey("Person.id"), nullable=False)
-    lender = relationship("Person", back_populates="history")
+    lender = relationship("Person", back_populates="history", lazy="joined")
 
     item_id = Column(Integer, ForeignKey("InventoryItem.id"), nullable=False)
-    item = relationship("InventoryItem", back_populates="lendings")
+    item = relationship("InventoryItem", back_populates="lendings", lazy="joined")
 
 
 class VersionInfo(Base):

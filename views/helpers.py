@@ -8,6 +8,7 @@ from PySide6.QtWidgets import QComboBox, QSpinBox
 from dateutil import relativedelta as rd
 
 from logic.config import properties
+from logic.crypt import decrypt_string
 
 
 def load_ui_file(filename):
@@ -64,3 +65,35 @@ def calculate_background(mot_date, option, painter):
         pen.setStyle(Qt.NoPen)
         painter.setPen(pen)
         painter.drawRect(option.rect)
+
+
+def filter_by_search(all_items, search, key, fields):
+    """
+    Filters a list of items based on a search string.
+
+    :param all_items: List of items to filter.
+    :param search: Search string to match against.
+    :param key: Encryption key, if applicable (can be None).
+    :param fields: Tuple or list of item attribute names to search in.
+    :return: Filtered list of items.
+    """
+    if not search:
+        return all_items  # No search; return all items
+
+    # Normalize the search value to lowercase for case-insensitive matching
+    search_lower = search.lower()
+    filtered = []
+
+    for item in all_items:
+        for field in fields:
+            # Get the field value from the item and decrypt it if necessary
+            value = getattr(item, field, None)
+            if value:
+                value = decrypt_string(key, value).lower() if key else value.lower()
+
+                # Check if the search term is a substring
+                if search_lower in value:
+                    filtered.append(item)
+                    break  # No need to check other fields for this item
+
+    return filtered
